@@ -31,7 +31,7 @@ public class Renderer {
             Display.setFullscreen(false);
             DisplayMode d[] = Display.getAvailableDisplayModes();
             for (int i = 0; i < d.length; i++) {
-                if (d[i].getWidth() == 640 && d[i].getHeight() == 480
+                if (d[i].getWidth() == 1280 && d[i].getHeight() == 960
                         && d[i].getBitsPerPixel() == 32) {
                     displayMode = d[i];
                     break;

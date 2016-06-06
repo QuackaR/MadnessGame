@@ -2,6 +2,7 @@ package de.krien.games.madness.render.voxel;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.util.vector.Vector3f;
 
 public class Chunk {
 
@@ -12,15 +13,11 @@ public class Chunk {
     private int vboVertexHandle;
     private int vboColorHandle;
 
-    private int positionX;
-    private int positionY;
-    private int positionZ;
+    private Vector3f position;
 
     public Chunk(int positionX, int positionY, int positionZ) {
         blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.positionZ = positionZ;
+        this.position = new Vector3f(positionX, positionY, positionZ);
     }
 
 
@@ -76,27 +73,11 @@ public class Chunk {
         this.vboColorHandle = vboColorHandle;
     }
 
-    public int getPositionX() {
-        return positionX;
+    public Vector3f getPosition() {
+        return position;
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
-    public int getPositionY() {
-        return positionY;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
-    }
-
-    public int getPositionZ() {
-        return positionZ;
-    }
-
-    public void setPositionZ(int positionZ) {
-        this.positionZ = positionZ;
+    public void setPosition(Vector3f position) {
+        this.position = position;
     }
 }
