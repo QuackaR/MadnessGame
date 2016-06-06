@@ -1,6 +1,7 @@
 package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.voxel.Chunk;
+import de.krien.games.madness.render.voxel.World;
 import de.krien.games.madness.render.voxel.util.ChunkRenderer;
 import de.krien.games.madness.render.voxel.util.ChunkGenerator;
 import org.lwjgl.input.Keyboard;
@@ -12,9 +13,6 @@ import org.lwjgl.util.glu.GLU;
 public class Renderer {
 
     private DisplayMode displayMode;
-
-    private float cameraPositionX, cameraPositionY, cameraPositionZ;
-    private float cameraRotationAngle, cameraRotationX, cameraRotationY, cameraRotationZ;
 
     public Renderer() {
         createWindow();
@@ -61,68 +59,21 @@ public class Renderer {
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
     }
 
-    public void draw(Chunk worldChunk) {
+    public void draw(World world) {
+        try {
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+            GL11.glLoadIdentity();
 
-            try {
-                processInput();
-                GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-                GL11.glLoadIdentity();
+            GL11.glTranslatef(-30f + world.getCameraPositionX(), -40f + world.getCameraPositionY(), -160f + world.getCameraPositionZ());
+            GL11.glRotatef(world.getCameraRotationAngle(), world.getCameraRotationX(), world.getCameraRotationY(), world.getCameraRotationZ());
 
-                GL11.glTranslatef(-30f + cameraPositionX, -40f + cameraPositionY, -160f + cameraPositionZ);
-                GL11.glRotatef(0f + cameraRotationAngle, 0f  + cameraRotationX, 0f  + cameraRotationY, 0f  + cameraRotationZ);
+            world.getChunk().draw();
+            Display.update();
+            Display.sync(60);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-                worldChunk.draw();
-                Display.update();
-                Display.sync(60);
-            } catch (Exception e) {
-
-            }
-
-    }
-
-    private void processInput() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            cameraPositionY--;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            cameraPositionY++;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            cameraPositionX++;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            cameraPositionX--;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            cameraPositionZ--;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            cameraPositionZ++;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7)) {
-            cameraRotationX-=0.1f;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8)) {
-            cameraRotationX+=0.1f;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4)) {
-            cameraRotationY-=0.1f;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD5)) {
-            cameraRotationY+=0.1f;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1)) {
-            cameraRotationZ-=0.1f;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2)) {
-            cameraRotationZ+=0.1f;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-            cameraRotationAngle++;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-            cameraRotationAngle--;
-        }
     }
 
 }

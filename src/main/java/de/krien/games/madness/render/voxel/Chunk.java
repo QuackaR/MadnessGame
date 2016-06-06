@@ -13,7 +13,6 @@ public class Chunk {
     private int vboVertexHandle;
     private int vboColorHandle;
 
-
     public Chunk() {
         blocks = new Block[RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE];
     }
@@ -24,6 +23,7 @@ public class Chunk {
         GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboColorHandle);
         GL11.glColorPointer(3, GL11.GL_FLOAT, 0, 0L);
+
         GL11.glDrawArrays(GL11.GL_QUADS, 0, RenderConstants.CHUNK_BLOCK_COUNT * 24);
         GL11.glPopMatrix();
     }
