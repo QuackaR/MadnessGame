@@ -1,6 +1,7 @@
 package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.voxel.Chunk;
+import de.krien.games.madness.render.voxel.util.ChunkRenderer;
 import de.krien.games.madness.render.voxel.util.RandomChunkUtil;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -14,6 +15,7 @@ public class Renderer {
 
     private Chunk worldChunk;
     private float cameraPositionX, cameraPositionY, cameraPositionZ;
+    private float cameraRotationAngle, cameraRotationX, cameraRotationY, cameraRotationZ;
 
     public Renderer() {
         createWindow();
@@ -63,6 +65,8 @@ public class Renderer {
 
     public void draw() {
         worldChunk = new RandomChunkUtil().generateRandomChunk(0, 0, 0);
+        ChunkRenderer chunkRenderer = new ChunkRenderer();
+        chunkRenderer.renderMesh(worldChunk);
 
         while (!Display.isCloseRequested()) {
             try {
@@ -71,8 +75,8 @@ public class Renderer {
                 GL11.glLoadIdentity();
 
                 GL11.glTranslatef(-30f + cameraPositionX, -40f + cameraPositionY, -160f + cameraPositionZ);
-                GL11.glRotatef(45f, 0.4f, 1.0f, 0.1f);
-                GL11.glRotatef(45f, 0f, 1.0f, 0f);
+                GL11.glRotatef(0f + cameraRotationAngle, 0f  + cameraRotationX, 0f  + cameraRotationY, 0f  + cameraRotationZ);
+                //GL11.glRotatef(45f, 0f, 1.0f, 0f);
 
                 worldChunk.draw();
                 Display.update();
@@ -102,6 +106,30 @@ public class Renderer {
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
             cameraPositionZ++;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7)) {
+            cameraRotationX-=0.1f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8)) {
+            cameraRotationX+=0.1f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4)) {
+            cameraRotationY-=0.1f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD5)) {
+            cameraRotationY+=0.1f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1)) {
+            cameraRotationZ-=0.1f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2)) {
+            cameraRotationZ+=0.1f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+            cameraRotationAngle++;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+            cameraRotationAngle--;
         }
     }
 
