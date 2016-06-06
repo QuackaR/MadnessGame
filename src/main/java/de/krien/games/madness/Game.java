@@ -8,15 +8,27 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class Game {
 
-    public static GameState currentState = GameState.State_Menu;
+    private GameState gameState;
+    private Renderer renderer;
 
-    public void start() {
-        try {
-            Renderer renderer = new Renderer();
-            renderer.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public Game() {
+        gameState = GameState.State_Menu;
+        renderer = new Renderer();
     }
 
+    public void start() {
+        renderer.run();
+
+//        while (!Display.isCloseRequested()) {
+//            update();
+//            draw();
+//        }
+    }
+
+    private void update() {
+    }
+
+    private void draw() {
+        renderer.run();
+    }
 }

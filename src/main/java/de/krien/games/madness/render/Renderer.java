@@ -1,6 +1,7 @@
 package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.voxel.Chunk;
+import de.krien.games.madness.render.voxel.util.RandomChunkUtil;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -67,7 +68,7 @@ public class Renderer {
 
 
     public void run() {
-        testChunk = new Chunk(0, 0, 0);
+        testChunk = new RandomChunkUtil().generateRandomChunk(0, 0, 0);
 
         float rotateYaw = 1;
         while (!Display.isCloseRequested()) {
