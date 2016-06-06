@@ -2,9 +2,7 @@ package de.krien.games.madness;
 
 import de.krien.games.madness.game.GameState;
 import de.krien.games.madness.render.Renderer;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
+import de.krien.games.madness.render.voxel.util.RandomChunkUtil;
 
 public class Game {
 
@@ -17,7 +15,7 @@ public class Game {
     }
 
     public void start() {
-        renderer.run();
+        renderer.draw();
 
 //        while (!Display.isCloseRequested()) {
 //            update();
@@ -29,6 +27,6 @@ public class Game {
     }
 
     private void draw() {
-        renderer.run();
+        renderer.draw();
     }
 }
