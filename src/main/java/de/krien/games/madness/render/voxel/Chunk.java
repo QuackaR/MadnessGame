@@ -28,6 +28,11 @@ public class Chunk {
         GL11.glPopMatrix();
     }
 
+    public void render() {
+        ChunkRenderer chunkRenderer = new ChunkRenderer();
+        chunkRenderer.renderMesh(this);
+    }
+
     public void update() {
     }
 

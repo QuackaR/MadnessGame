@@ -13,7 +13,6 @@ public class Renderer {
 
     private DisplayMode displayMode;
 
-    private Chunk worldChunk;
     private float cameraPositionX, cameraPositionY, cameraPositionZ;
     private float cameraRotationAngle, cameraRotationX, cameraRotationY, cameraRotationZ;
 
@@ -62,13 +61,8 @@ public class Renderer {
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
     }
 
+    public void draw(Chunk worldChunk) {
 
-    public void draw() {
-        worldChunk = new ChunkGenerator().generateProChunk();
-        ChunkRenderer chunkRenderer = new ChunkRenderer();
-        chunkRenderer.renderMesh(worldChunk);
-
-        while (!Display.isCloseRequested()) {
             try {
                 processInput();
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -76,7 +70,6 @@ public class Renderer {
 
                 GL11.glTranslatef(-30f + cameraPositionX, -40f + cameraPositionY, -160f + cameraPositionZ);
                 GL11.glRotatef(0f + cameraRotationAngle, 0f  + cameraRotationX, 0f  + cameraRotationY, 0f  + cameraRotationZ);
-                //GL11.glRotatef(45f, 0f, 1.0f, 0f);
 
                 worldChunk.draw();
                 Display.update();
@@ -84,8 +77,7 @@ public class Renderer {
             } catch (Exception e) {
 
             }
-        }
-        Display.destroy();
+
     }
 
     private void processInput() {
