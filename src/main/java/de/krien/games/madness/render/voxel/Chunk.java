@@ -1,6 +1,7 @@
 package de.krien.games.madness.render.voxel;
 
 import de.krien.games.madness.render.RenderConstants;
+import de.krien.games.madness.render.voxel.util.ChunkRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.vector.Vector3f;
@@ -12,11 +13,9 @@ public class Chunk {
     private int vboVertexHandle;
     private int vboColorHandle;
 
-    private Vector3f position;
 
-    public Chunk(int positionX, int positionY, int positionZ) {
+    public Chunk() {
         blocks = new Block[RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE];
-        this.position = new Vector3f(positionX, positionY, positionZ);
     }
 
     public void draw() {
@@ -50,10 +49,6 @@ public class Chunk {
 
     public void setVboColorHandle(int vboColorHandle) {
         this.vboColorHandle = vboColorHandle;
-    }
-
-    public Vector3f getPosition() {
-        return position;
     }
 
 }

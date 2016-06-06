@@ -2,7 +2,7 @@ package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.util.ChunkRenderer;
-import de.krien.games.madness.render.voxel.util.RandomChunkUtil;
+import de.krien.games.madness.render.voxel.util.ChunkGenerator;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -64,7 +64,7 @@ public class Renderer {
 
 
     public void draw() {
-        worldChunk = new RandomChunkUtil().generateRandomChunk(0, 0, 0);
+        worldChunk = new ChunkGenerator().generateProChunk();
         ChunkRenderer chunkRenderer = new ChunkRenderer();
         chunkRenderer.renderMesh(worldChunk);
 

@@ -7,6 +7,7 @@ public class Block {
 
     public Block(BlockType blockType) {
         this.blockType = blockType;
+        this.isActive = true;
     }
 
     public boolean isActive() {

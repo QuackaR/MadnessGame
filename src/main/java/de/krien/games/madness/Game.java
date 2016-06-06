@@ -2,7 +2,6 @@ package de.krien.games.madness;
 
 import de.krien.games.madness.game.GameState;
 import de.krien.games.madness.render.Renderer;
-import de.krien.games.madness.render.voxel.util.RandomChunkUtil;
 
 public class Game {
 
