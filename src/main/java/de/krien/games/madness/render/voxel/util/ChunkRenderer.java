@@ -4,15 +4,10 @@ import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 
 public class ChunkRenderer {
 
@@ -34,8 +29,7 @@ public class ChunkRenderer {
                         float[] cube = createCube(blockPositionX, blockPositionY, blockPositionZ);
                         vertexPositionData.put(cube);
 
-                        Texture texture = block.getBlockType().getTexture();
-                        float[] cubeVertexTexture = createCubeVertexTexture(texture);
+                        float[] cubeVertexTexture = createCubeVertexTexture(block);
                         vertexTextureData.put(cubeVertexTexture);
                     }
                 }
@@ -58,61 +52,78 @@ public class ChunkRenderer {
         int offset = RenderConstants.BLOCK_LENGTH / 2;
         return new float[]{
                 // BOTTOM QUAD(DOWN=+Y)
-                x + offset,
-                y + offset,
-                z,
-                x - offset,
-                y + offset,
-                z,
-                x - offset,
-                y + offset,
-                z - RenderConstants.BLOCK_LENGTH,
-                x + offset,
-                y + offset,
-                z - RenderConstants.BLOCK_LENGTH,
-                // TOP!
-                x + offset, y - offset, z - RenderConstants.BLOCK_LENGTH, x - offset,
-                y - offset,
-                z - RenderConstants.BLOCK_LENGTH,
-                x - offset,
-                y - offset,
-                z,
-                x + offset,
-                y - offset,
-                z,
-                // FRONT QUAD
-                x + offset, y + offset, z - RenderConstants.BLOCK_LENGTH, x - offset,
-                y + offset, z - RenderConstants.BLOCK_LENGTH, x - offset,
-                y - offset,
-                z - RenderConstants.BLOCK_LENGTH,
-                x + offset,
-                y - offset,
-                z - RenderConstants.BLOCK_LENGTH,
-                // BACK QUAD
-                x + offset, y - offset, z, x - offset, y - offset, z,
+                x + offset, y + offset, z,
                 x - offset, y + offset, z,
-                x + offset,
-                y + offset,
-                z,
+                x - offset, y + offset, z - RenderConstants.BLOCK_LENGTH,
+                x + offset, y + offset, z - RenderConstants.BLOCK_LENGTH,
+                // TOP!
+                x + offset, y - offset, z - RenderConstants.BLOCK_LENGTH,
+                x - offset, y - offset, z - RenderConstants.BLOCK_LENGTH,
+                x - offset, y - offset, z,
+                x + offset, y - offset, z,
+                // FRONT QUAD
+                x + offset, y + offset, z - RenderConstants.BLOCK_LENGTH,
+                x - offset, y + offset, z - RenderConstants.BLOCK_LENGTH,
+                x - offset, y - offset, z - RenderConstants.BLOCK_LENGTH,
+                x + offset, y - offset, z - RenderConstants.BLOCK_LENGTH,
+                // BACK QUAD
+                x + offset, y - offset, z,
+                x - offset, y - offset, z,
+                x - offset, y + offset, z,
+                x + offset, y + offset, z,
                 // LEFT QUAD
-                x - offset, y + offset, z - RenderConstants.BLOCK_LENGTH, x - offset,
-                y + offset, z, x - offset, y - offset, z, x - offset,
-                y - offset,
-                z - RenderConstants.BLOCK_LENGTH,
+                x - offset, y + offset, z - RenderConstants.BLOCK_LENGTH,
+                x - offset, y + offset, z,
+                x - offset, y - offset, z,
+                x - offset, y - offset, z - RenderConstants.BLOCK_LENGTH,
                 // RIGHT QUAD
-                x + offset, y + offset, z, x + offset, y + offset,
-                z - RenderConstants.BLOCK_LENGTH, x + offset, y - offset, z - RenderConstants.BLOCK_LENGTH,
+                x + offset, y + offset, z,
+                x + offset, y + offset, z - RenderConstants.BLOCK_LENGTH,
+                x + offset, y - offset, z - RenderConstants.BLOCK_LENGTH,
                 x + offset, y - offset, z};
     }
 
-    private float[] createCubeVertexTexture(Texture texture) {
-        float[] cubeTextures = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-                0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-                0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-                0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-                0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-                0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,};
+    private float[] createCubeVertexTexture(Block block) {
+        float[] topSurface = generateSurfaceTextureCoordinates(1, block.getBlockType().getBlockID());
+        float[] frontSurface = generateSurfaceTextureCoordinates(2, block.getBlockType().getBlockID());
+        float[] leftSurface = generateSurfaceTextureCoordinates(3, block.getBlockType().getBlockID());
+        float[] backSurface = generateSurfaceTextureCoordinates(4, block.getBlockType().getBlockID());
+        float[] rightSurface = generateSurfaceTextureCoordinates(5, block.getBlockType().getBlockID());
+        float[] bottomSurface = generateSurfaceTextureCoordinates(6, block.getBlockType().getBlockID());
+
+        float[] cubeTextures = concatAll(backSurface, frontSurface, bottomSurface, topSurface, leftSurface, rightSurface);
         return cubeTextures;
+    }
+
+    private float[] generateSurfaceTextureCoordinates(float tileColumn, float tileLine) {
+        float tileDim = 1.0f / 8.0f;
+
+        float upperX = (tileColumn - 1) * tileDim;
+        float leftY = (tileLine - 1) * tileDim;
+        float lowerX = tileDim * tileColumn;
+        float rightY = tileLine * tileDim;
+
+        float[] surfaceTextureCoordinates = new float[]{
+                upperX, leftY,      //x=0,y=0
+                upperX, rightY,     //x=1,y=0
+                lowerX, rightY,     //x=1,y=1
+                lowerX, leftY};     //x=0,y=1
+
+        return surfaceTextureCoordinates;
+    }
+
+    private float[] concatAll(float[] first, float[]... rest) {
+        int totalLength = first.length;
+        for (float[] array : rest) {
+            totalLength += array.length;
+        }
+        float[] result = Arrays.copyOf(first, totalLength);
+        int offset = first.length;
+        for (float[] array : rest) {
+            System.arraycopy(array, 0, result, offset, array.length);
+            offset += array.length;
+        }
+        return result;
     }
 
 }

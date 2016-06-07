@@ -1,11 +1,13 @@
 package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.voxel.World;
+import de.krien.games.madness.render.voxel.util.TextureUtil;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
+import org.newdawn.slick.opengl.Texture;
 
 public class Renderer {
 
@@ -86,6 +88,7 @@ public class Renderer {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, world.getChunk().getVboTextureHandle());
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
 
+        TextureUtil.INSTANCE.bind();
         GL11.glDrawArrays(GL11.GL_QUADS, 0, RenderConstants.CHUNK_BLOCK_COUNT * 24);
         GL11.glPopMatrix();
     }
