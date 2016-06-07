@@ -15,13 +15,8 @@ public class World {
         camera = new Camera();
         chunks = new Chunk[RenderConstants.WORLD_SIZE_X][RenderConstants.WORLD_SIZE_Y];
         for(int x = 0; x < chunks.length; x++) {
-            for(int y = 0; y < (chunks[x].length / 2); y++) {
-                Chunk chunk = new ChunkGenerator().generateBaseChunk();
-                chunk.render(x, y);
-                chunks[x][y] = chunk;
-            }
-            for(int y = (chunks[x].length / 2); y < chunks[x].length; y++) {
-                Chunk chunk = new ChunkGenerator().generateRandomChunk();
+            for(int y = 0; y < chunks[x].length; y++) {
+                Chunk chunk = new ChunkGenerator().generateLandscapeChunk();
                 chunk.render(x, y);
                 chunks[x][y] = chunk;
             }
