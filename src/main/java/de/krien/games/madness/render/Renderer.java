@@ -11,13 +11,18 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.Texture;
 
+import java.awt.*;
+
 public class Renderer {
 
     private DisplayMode displayMode;
+    private FpsHudRenderer fpsHudRenderer;
 
     public Renderer() {
         createWindow();
         initGL();
+
+        fpsHudRenderer = new FpsHudRenderer();
     }
 
     private void createWindow() {
@@ -57,14 +62,15 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
-        TextureUtil.INSTANCE.bind();
     }
 
     public void draw(World world) {
         try {
             clearMatrix();
             updateCamera(world);
+            fpsHudRenderer.drawFps();
             drawMatrix(world);
+
             Display.update();
             Display.sync(60);
         } catch (Exception e) {
@@ -85,6 +91,7 @@ public class Renderer {
     }
 
     private void drawMatrix(World world) {
+        TextureUtil.INSTANCE.bind();
         Chunk[][] chunks = world.getChunks();
         for(int x = 0; x < chunks.length; x++) {
             for(int y = 0; y < chunks[0].length; y++) {

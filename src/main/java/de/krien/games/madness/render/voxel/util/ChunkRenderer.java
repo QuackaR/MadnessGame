@@ -25,23 +25,10 @@ public class ChunkRenderer {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
                     Block block = chunk.getBlocks()[x][y][z];
-                    if (block != null && block.isActive()) {
+                    if (block != null && block.isActive() && blockIsNotSurrounded(chunk.getBlocks(), x, y, z)) {
                         float blockPositionX = (float) x * RenderConstants.BLOCK_LENGTH + chunkOffsetX;
                         float blockPositionY = (float) y * RenderConstants.BLOCK_LENGTH + chunkOffsetY;
                         float blockPositionZ = (float) z * RenderConstants.BLOCK_LENGTH;
-
-                        if(chunkX == 0 && chunkY == 0 && x == 0 && y == 0 && z == 56) {
-                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
-                        }
-                        if(chunkX == 1 && chunkY == 0 && x == 0 && y == 0 && z == 56) {
-                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
-                        }
-                        if(chunkX == 0 && chunkY == 1 && x == 0 && y == 0 && z == 56) {
-                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
-                        }
-                        if(chunkX == 1 && chunkY == 1 && x == 0 && y == 0 && z == 56) {
-                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
-                        }
 
                         float[] cube = createCube(blockPositionX, blockPositionY, blockPositionZ);
                         vertexPositionData.put(cube);
@@ -63,6 +50,19 @@ public class ChunkRenderer {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, chunk.getVboTextureHandle());
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertexTextureData, GL15.GL_STATIC_DRAW);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    }
+
+    private boolean blockIsNotSurrounded(Block[][][] blocks, int x, int y, int z) {
+        boolean render = true;
+        if(x > 0 && blocks[x-1][y][z] != null && blocks[x-1][y][z].isActive()
+                && x < (RenderConstants.CHUNK_SIZE - 1) && blocks[x+1][y][z] != null && blocks[x+1][y][z].isActive()
+                && y > 0 && blocks[x][y-1][z] != null && blocks[x][y-1][z].isActive()
+                && y < (RenderConstants.CHUNK_SIZE - 1) && blocks[x][y+1][z] != null && blocks[x][y+1][z].isActive()
+                && z > 0 && blocks[x][y][z-1] != null && blocks[x][y][z-1].isActive()
+                && z < (RenderConstants.CHUNK_SIZE - 1) && blocks[x][y][z+1] != null && blocks[x][y][z+1].isActive()) {
+            render = false;
+        }
+        return render;
     }
 
     private float[] createCube(float x, float y, float z) {
