@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
 
 public class Renderer {
@@ -68,14 +69,19 @@ public class Renderer {
             GL11.glRotatef(world.getCamera().getRotationZ(), 0.0f, 0.0f, 1.0f);
             GL11.glTranslatef(-30f + world.getCamera().getPositionX(), -40f + world.getCamera().getPositionY(), -160f + world.getCamera().getPositionZ());
 
+            GL11.glPushMatrix();
+            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, world.getChunk().getVboVertexHandle());
+            GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
+            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, world.getChunk().getVboTextureHandle());
+            GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
 
-            world.getChunk().draw();
+            GL11.glDrawArrays(GL11.GL_QUADS, 0, RenderConstants.CHUNK_BLOCK_COUNT * 24);
+            GL11.glPopMatrix();
             Display.update();
             Display.sync(60);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }

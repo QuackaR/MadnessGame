@@ -16,23 +16,9 @@ public class Chunk {
         blocks = new Block[RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE];
     }
 
-    public void draw() {
-        GL11.glPushMatrix();
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboVertexHandle);
-        GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboTextureHandle);
-        GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
-
-        GL11.glDrawArrays(GL11.GL_QUADS, 0, RenderConstants.CHUNK_BLOCK_COUNT * 24);
-        GL11.glPopMatrix();
-    }
-
     public void render() {
         ChunkRenderer chunkRenderer = new ChunkRenderer();
         chunkRenderer.renderMesh(this);
-    }
-
-    public void update() {
     }
 
     public Block[][][] getBlocks() {
