@@ -64,8 +64,10 @@ public class Renderer {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glLoadIdentity();
 
-            GL11.glTranslatef(-30f + world.getCameraPositionX(), -40f + world.getCameraPositionY(), -160f + world.getCameraPositionZ());
-            GL11.glRotatef(world.getCameraRotationAngle(), world.getCameraRotationX(), world.getCameraRotationY(), world.getCameraRotationZ());
+            GL11.glTranslatef(-30f + world.getCamera().getPositionX(), -40f + world.getCamera().getPositionY(), -160f + world.getCamera().getPositionZ());
+            GL11.glRotatef(world.getCamera().getRotationX(), 0.0f, 1.0f, 0.0f);
+            GL11.glRotatef(world.getCamera().getRotationY(), 1.0f, 0.0f, 0.0f);
+            GL11.glRotatef(world.getCamera().getRotationZ(), 0.0f, 0.0f, 1.0f);
 
             world.getChunk().draw();
             Display.update();
