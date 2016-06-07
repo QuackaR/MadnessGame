@@ -17,12 +17,12 @@ public class ChunkGenerator {
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 Block grassBlock = new Block(BlockType.GRASS);
-                chunk.getBlocks()[x][y][RenderConstants.CHUNK_SIZE - 1] = grassBlock;
-                for (int z = RenderConstants.CHUNK_SIZE - 2; z > RenderConstants.CHUNK_SIZE - 5; z--) {
+                chunk.getBlocks()[x][y][10] = grassBlock;
+                for (int z = 5; z < 10; z++) {
                     Block dirtBlock = new Block(BlockType.DIRT);
                     chunk.getBlocks()[x][y][z] = dirtBlock;
                 }
-                for (int z = RenderConstants.CHUNK_SIZE - 5; z > RenderConstants.CHUNK_SIZE - 9; z--) {
+                for (int z = 0; z < 5; z++) {
                     Block dirtBlock = new Block(BlockType.STONE);
                     chunk.getBlocks()[x][y][z] = dirtBlock;
                 }
@@ -40,7 +40,7 @@ public class ChunkGenerator {
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
-                    if (random.nextFloat() <= 0.7f) {
+                    if (random.nextFloat() <= 0.5f) {
                         Block block = new Block(BlockType.DEFAULT);
                         block.setActive(false);
                         chunk.getBlocks()[x][y][z] = block;
@@ -50,6 +50,10 @@ public class ChunkGenerator {
                         chunk.getBlocks()[x][y][z] = new Block(BlockType.DIRT);
                     } else if (random.nextFloat() > 0.7f) {
                         chunk.getBlocks()[x][y][z] = new Block(BlockType.WATER);
+                    } else if (random.nextFloat() > 0.6f) {
+                        chunk.getBlocks()[x][y][z] = new Block(BlockType.SAND);
+                    } else if (random.nextFloat() > 0.5f) {
+                        chunk.getBlocks()[x][y][z] = new Block(BlockType.STONE);
                     }
                 }
             }

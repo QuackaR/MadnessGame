@@ -11,21 +11,38 @@ import java.util.Arrays;
 
 public class ChunkRenderer {
 
-    public void renderMesh(Chunk chunk) {
+    public void renderMesh(Chunk chunk, int chunkX, int chunkY) {
         chunk.setVboTextureHandle(GL15.glGenBuffers());
         chunk.setVboVertexHandle(GL15.glGenBuffers());
 
         FloatBuffer vertexPositionData = BufferUtils.createFloatBuffer((RenderConstants.CHUNK_BLOCK_COUNT) * 6 * 12);
         FloatBuffer vertexTextureData = BufferUtils.createFloatBuffer((RenderConstants.CHUNK_BLOCK_COUNT) * 6 * 12);
 
+        float chunkOffsetX = RenderConstants.BLOCK_LENGTH * RenderConstants.CHUNK_SIZE * chunkX;
+        float chunkOffsetY = RenderConstants.BLOCK_LENGTH * RenderConstants.CHUNK_SIZE * chunkY;
+
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
                     Block block = chunk.getBlocks()[x][y][z];
                     if (block != null && block.isActive()) {
-                        float blockPositionX = (float) x * RenderConstants.BLOCK_LENGTH;
-                        float blockPositionY = (float) y * RenderConstants.BLOCK_LENGTH;
+                        float blockPositionX = (float) x * RenderConstants.BLOCK_LENGTH + chunkOffsetX;
+                        float blockPositionY = (float) y * RenderConstants.BLOCK_LENGTH + chunkOffsetY;
                         float blockPositionZ = (float) z * RenderConstants.BLOCK_LENGTH;
+
+                        if(chunkX == 0 && chunkY == 0 && x == 0 && y == 0 && z == 56) {
+                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
+                        }
+                        if(chunkX == 1 && chunkY == 0 && x == 0 && y == 0 && z == 56) {
+                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
+                        }
+                        if(chunkX == 0 && chunkY == 1 && x == 0 && y == 0 && z == 56) {
+                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
+                        }
+                        if(chunkX == 1 && chunkY == 1 && x == 0 && y == 0 && z == 56) {
+                            System.out.print("Chunk: " + chunkX + ":" + chunkY + " - Block " + x + ":" + y + ":" + z + " has pos (" + blockPositionX + "/"+ blockPositionY + "/" + blockPositionZ + ").\n");
+                        }
+
                         float[] cube = createCube(blockPositionX, blockPositionY, blockPositionZ);
                         vertexPositionData.put(cube);
 

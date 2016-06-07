@@ -16,9 +16,9 @@ public class Chunk {
         blocks = new Block[RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE];
     }
 
-    public void render() {
+    public void render(int x, int y) {
         ChunkRenderer chunkRenderer = new ChunkRenderer();
-        chunkRenderer.renderMesh(this);
+        chunkRenderer.renderMesh(this, x, y);
     }
 
     public Block[][][] getBlocks() {

@@ -18,21 +18,15 @@ public class Game {
 
     public Game() {
         gameState = GameState.State_Menu;
-        world = World.getInstance();
-
         renderer = new Renderer();
+        world = World.getInstance();
         cameraController = new CameraController();
     }
 
     public void start() {
-        Chunk chunk = new ChunkGenerator().generateBaseChunk();
-        chunk.render();
-        world.setChunk(chunk);
-
         while (!Display.isCloseRequested()) {
             update();
             draw();
-
         }
         Display.destroy();
     }

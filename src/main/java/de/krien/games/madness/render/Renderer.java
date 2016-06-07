@@ -1,6 +1,8 @@
 package de.krien.games.madness.render;
 
+import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.World;
+import de.krien.games.madness.render.voxel.util.ChunkGenerator;
 import de.krien.games.madness.render.voxel.util.TextureUtil;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -55,6 +57,7 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
+        TextureUtil.INSTANCE.bind();
     }
 
     public void draw(World world) {
@@ -82,14 +85,18 @@ public class Renderer {
     }
 
     private void drawMatrix(World world) {
-        GL11.glPushMatrix();
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, world.getChunk().getVboVertexHandle());
-        GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, world.getChunk().getVboTextureHandle());
-        GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
-
-        TextureUtil.INSTANCE.bind();
-        GL11.glDrawArrays(GL11.GL_QUADS, 0, RenderConstants.CHUNK_BLOCK_COUNT * 24);
-        GL11.glPopMatrix();
+        Chunk[][] chunks = world.getChunks();
+        for(int x = 0; x < chunks.length; x++) {
+            for(int y = 0; y < chunks[0].length; y++) {
+                Chunk chunk = chunks[x][y];
+                GL11.glPushMatrix();
+                GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, chunk.getVboVertexHandle());
+                GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
+                GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, chunk.getVboTextureHandle());
+                GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
+                GL11.glDrawArrays(GL11.GL_QUADS, 0, RenderConstants.CHUNK_BLOCK_COUNT * 24);
+                GL11.glPopMatrix();
+            }
+        }
     }
 }
