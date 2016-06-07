@@ -33,7 +33,7 @@
         </repository>
     </repositories>
 
-    <dependencies>2.9.1
+    <dependencies>
         <dependency>
             <groupId>org.lwjgl.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
@@ -46,9 +46,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.typesafe.slick</groupId>
-            <artifactId>slick_2.11</artifactId>
-            <version>${slick.version}</version>
+            <groupId>org.slick2d</groupId>
+            <artifactId>slick2d-core</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>java3d</groupId>

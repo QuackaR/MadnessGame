@@ -1,29 +1,31 @@
 package de.krien.games.madness.render.voxel;
 
+import de.krien.games.madness.render.voxel.util.Texture;
+
 public enum BlockType {
 
-    BlockType_Default(0, null),
-    BlockType_Grass(1, new float[]{0, 1, 0}),
-    BlockType_Dirt(2, new float[]{1, 0.5f, 0}),
-    BlockType_Water(3, new float[]{0, 0f, 1f}),
-    BlockType_Stone(4, new float[]{1, 1, 1}),
-    BlockType_Wood(5, new float[]{1, 1, 1}),
-    BlockType_Sand(6, new float[]{1, 1, 1}),
-    BlockType_NumTypes(7, new float[]{1, 1, 1});
+    BlockType_Default(0, Texture.GRASS),
+    BlockType_Grass(1, Texture.GRASS),
+    BlockType_Dirt(2, Texture.GRASS),
+    BlockType_Water(3, Texture.GRASS),
+    BlockType_Stone(4, Texture.GRASS),
+    BlockType_Wood(5, Texture.GRASS),
+    BlockType_Sand(6, Texture.GRASS),
+    BlockType_NumTypes(7, Texture.GRASS);
 
     private int blockID;
-    private float[] color;
+    private Texture texture;
 
-    BlockType(int blockID, float[] color) {
+    BlockType(int blockID, Texture texture) {
         this.blockID = blockID;
-        this.color = color;
+        this.texture = texture;
     }
 
     public int getBlockID() {
         return blockID;
     }
 
-    public float[] getColor() {
-        return color;
+    public org.newdawn.slick.opengl.Texture getTexture() {
+        return texture.getTexture();
     }
 }

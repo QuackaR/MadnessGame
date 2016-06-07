@@ -26,7 +26,7 @@ public class ChunkGenerator {
                 }
             }
         }
-        chunk.setVboColorHandle(GL15.glGenBuffers());
+        chunk.setVboTextureHandle(GL15.glGenBuffers());
         chunk.setVboVertexHandle(GL15.glGenBuffers());
 
         return chunk;
@@ -52,7 +52,7 @@ public class ChunkGenerator {
                 }
             }
         }
-        chunk.setVboColorHandle(GL15.glGenBuffers());
+        chunk.setVboTextureHandle(GL15.glGenBuffers());
         chunk.setVboVertexHandle(GL15.glGenBuffers());
 
         return chunk;
