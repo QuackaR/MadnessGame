@@ -53,7 +53,7 @@ public class CameraController {
             world.getCamera().increaseRotationX(mousePositionXDelta * ROTATION_SENSITY);
         }
         if (Mouse.isButtonDown(1) && mousePositionYDelta != 0) {
-            world.getCamera().increaseRotationY(mousePositionYDelta * ROTATION_SENSITY);
+            world.getCamera().increaseRotationY(mousePositionYDelta * ROTATION_SENSITY * -1);
         }
 
     }
