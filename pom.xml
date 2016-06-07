@@ -16,23 +16,6 @@
         <junit.version>4.10</junit.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>mavenNatives</id>
-            <name>Maven Natives Repository</name>
-            <url>http://mavennatives.googlecode.com/svn/repo</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <id>slick</id>
-            <name>slick</name>
-            <url>http://slick.cokeandcode.com/mavenrepo</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.lwjgl.lwjgl</groupId>
