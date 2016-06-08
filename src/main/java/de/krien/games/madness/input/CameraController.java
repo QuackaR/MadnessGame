@@ -21,10 +21,6 @@ public class CameraController {
     }
 
     public void processInput() {
-        int mouseWheelDelta = Mouse.getDWheel();
-        int mousePositionXDelta = Mouse.getDX();
-        int mousePositionYDelta = Mouse.getDY();
-
         // Movement with WASD
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             cameraUtil.moveLeft(MOVEMENT_SENSITY);
@@ -58,6 +54,8 @@ public class CameraController {
         }
 
         // Zooming with Mouse Wheel
+        int mouseWheelDelta = Mouse.getDWheel();
+
         if (mouseWheelDelta < 0) {
             world.getCamera().increasePositionZ(ZOOM_SENSITY);
         }
@@ -74,13 +72,15 @@ public class CameraController {
         }
 
         // Rotation with Right-Click + Mouse Movement
-        if (Mouse.isButtonDown(1) && mousePositionXDelta != 0) {
-            world.getCamera().increaseRotationX(mousePositionXDelta * ROTATION_SENSITY);
-        }
-        if (Mouse.isButtonDown(1) && mousePositionYDelta != 0) {
-            world.getCamera().increaseRotationY(mousePositionYDelta * ROTATION_SENSITY * -1);
-        }
+        int mousePositionXDelta = Mouse.getDX();
+        int mousePositionYDelta = -1 * Mouse.getDY();
 
+        if (Mouse.isButtonDown(1) && mousePositionYDelta != 0) {
+            world.getCamera().increaseRotationX(mousePositionYDelta * ROTATION_SENSITY);
+        }
+        if (Mouse.isButtonDown(1) && mousePositionXDelta != 0) {
+            world.getCamera().increaseRotationZ(mousePositionXDelta * ROTATION_SENSITY);
+        }
     }
 
 }

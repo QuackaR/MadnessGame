@@ -83,8 +83,8 @@ public class Renderer {
 
     private void updateCamera(World world) {
         GL11.glLoadIdentity();
-        GL11.glRotatef(world.getCamera().getRotationX(), 0.0f, 1.0f, 0.0f); // Pitch RL
-        GL11.glRotatef(world.getCamera().getRotationY(), 1.0f, 0.0f, 0.0f); //Yaw OU
+        GL11.glRotatef(world.getCamera().getRotationX(), 1.0f, 0.0f, 0.0f); //Yaw
+        GL11.glRotatef(world.getCamera().getRotationY(), 0.0f, 1.0f, 0.0f); // Pitch
         GL11.glRotatef(world.getCamera().getRotationZ(), 0.0f, 0.0f, 1.0f); //Roll
         GL11.glTranslatef(world.getCamera().getPositionX(), world.getCamera().getPositionY(), world.getCamera().getPositionZ());
     }
