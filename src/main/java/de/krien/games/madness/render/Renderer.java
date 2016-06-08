@@ -58,7 +58,7 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
 
-        GLU.gluPerspective(45.0f, (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
+        GLU.gluPerspective(45.0f, (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, RenderConstants.VIEW_DISTANCE);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
@@ -72,7 +72,7 @@ public class Renderer {
             drawMatrix(world);
 
             Display.update();
-            Display.sync(60);
+            Display.sync(RenderConstants.MAX_FPS);
         } catch (Exception e) {
             e.printStackTrace();
         }

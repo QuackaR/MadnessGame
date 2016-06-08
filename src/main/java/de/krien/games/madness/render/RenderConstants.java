@@ -10,6 +10,9 @@ public class RenderConstants {
 
     public static final int WORLD_SIZE_X = 3; // Width of world in chunks
     public static final int WORLD_SIZE_Y = 2; // Length of world in chunks
+
+    public static final int MAX_FPS = 100;
+    public static final float VIEW_DISTANCE = 300.0f;
     // public static final int WORLD_SIZE_Z = 4; // Height of world in chunks
 
 }
