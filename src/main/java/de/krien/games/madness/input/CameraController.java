@@ -1,5 +1,6 @@
 package de.krien.games.madness.input;
 
+import de.krien.games.madness.render.camera.DynamicCameraUtil;
 import de.krien.games.madness.render.voxel.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -11,7 +12,13 @@ public class CameraController {
     private final float ROLLING_SENSITY = 0.2f;
     private final float ROTATION_SENSITY = 1.0f;
 
-    private World world = World.getInstance();
+    private World world;
+    private DynamicCameraUtil cameraUtil;
+
+    public CameraController() {
+        world = World.getInstance();
+        cameraUtil = new DynamicCameraUtil(world.getCamera());
+    }
 
     public void processInput() {
         int mouseWheelDelta = Mouse.getDWheel();
@@ -20,23 +27,41 @@ public class CameraController {
 
         // Movement with WASD
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            world.getCamera().increasePositionX(MOVEMENT_SENSITY);
+            cameraUtil.moveLeft(MOVEMENT_SENSITY);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            world.getCamera().decreasePositionX(MOVEMENT_SENSITY);
+            cameraUtil.moveRight(MOVEMENT_SENSITY);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            world.getCamera().increasePositionY(MOVEMENT_SENSITY);
+            cameraUtil.moveBackward(MOVEMENT_SENSITY);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            world.getCamera().decreasePositionY(MOVEMENT_SENSITY);
+            cameraUtil.moveForward(MOVEMENT_SENSITY);
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
+            System.out.println("RotationX: " + world.getCamera().getRotationX());
+            System.out.println("RotationY: " + world.getCamera().getRotationY());
+            System.out.println("RotationZ: " + world.getCamera().getRotationZ());
+
+            System.out.println("PositionX: " + world.getCamera().getPositionX());
+            System.out.println("PositionY: " + world.getCamera().getPositionY());
+            System.out.println("PositionZ: " + world.getCamera().getPositionZ());
+
+            System.out.println("Sin of RotationX: " + Math.sin(Math.toRadians(world.getCamera().getRotationX())));
+            System.out.println("Cos of RotationX: " + Math.cos(Math.toRadians(world.getCamera().getRotationX())));
+            System.out.println("Sin of RotationY: " + Math.sin(Math.toRadians(world.getCamera().getRotationY())));
+            System.out.println("Cos of RotationY: " + Math.cos(Math.toRadians(world.getCamera().getRotationY())));
+            System.out.println("Sin of RotationZ: " + Math.sin(Math.toRadians(world.getCamera().getRotationZ())));
+            System.out.println("Cos of RotationZ: " + Math.cos(Math.toRadians(world.getCamera().getRotationZ())));
+            System.out.println("###############################");
         }
 
         // Zooming with Mouse Wheel
-        if (mouseWheelDelta > 0) {
+        if (mouseWheelDelta < 0) {
             world.getCamera().increasePositionZ(ZOOM_SENSITY);
         }
-        if (mouseWheelDelta < 0) {
+        if (mouseWheelDelta > 0) {
             world.getCamera().decreasePositionZ(ZOOM_SENSITY);
         }
 
