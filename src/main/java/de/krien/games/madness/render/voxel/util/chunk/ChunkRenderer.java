@@ -53,13 +53,7 @@ public class ChunkRenderer {
             int offset = RenderConstants.BLOCK_LENGTH / 2;
 
             BlockRenderer blockRenderer = new BlockRenderer(blockPositionX, blockPositionY, blockPositionZ, offset, vertexPositionData, vertexTextureData);
-
-            blockRenderer.renderTopSurface(chunk.getBlocks(), x, y, z);
-            blockRenderer.renderBottomSurface(chunk.getBlocks(), x, y, z);
-            blockRenderer.renderFrontSurface(chunk.getBlocks(), x, y, z);
-            blockRenderer.renderBackSurface(chunk.getBlocks(), x, y, z);
-            blockRenderer.renderLeftSurface(chunk.getBlocks(), x, y, z);
-            blockRenderer.renderRightSurface(chunk.getBlocks(), x, y, z);
+            blockRenderer.renderBlock(chunk.getBlocks(), x, y, z);
         }
     }
 

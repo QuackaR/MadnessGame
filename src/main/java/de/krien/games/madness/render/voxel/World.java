@@ -21,7 +21,6 @@ public class World {
                 chunks[x][y] = chunk;
             }
         }
-
     }
 
     public static World getInstance() {

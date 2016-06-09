@@ -2,6 +2,7 @@ package de.krien.games.madness.render.voxel.util.block;
 
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Block;
+import de.krien.games.madness.render.voxel.BlockType;
 
 import java.nio.FloatBuffer;
 
@@ -24,7 +25,30 @@ public class BlockRenderer {
         this.vertexTextureData = vertexTextureData;
     }
 
-    public void renderTopSurface(Block[][][] blocks, int x, int y, int z) {
+    public void renderBlock() {
+        Block[][][] blocks = new Block[3][3][3];
+        int x = 1;
+        int y = 1;
+        int z = 1;
+        blocks[1][1][1] = new Block(BlockType.WOOD);
+        renderTopSurface(blocks, x, y, z);
+        renderBottomSurface(blocks, x, y, z);
+        renderFrontSurface(blocks, x, y, z);
+        renderBackSurface(blocks, x, y, z);
+        renderLeftSurface(blocks, x, y, z);
+        renderRightSurface(blocks, x, y, z);
+    }
+
+    public void renderBlock(Block[][][] blocks, int x, int y, int z) {
+        renderTopSurface(blocks, x, y, z);
+        renderBottomSurface(blocks, x, y, z);
+        renderFrontSurface(blocks, x, y, z);
+        renderBackSurface(blocks, x, y, z);
+        renderLeftSurface(blocks, x, y, z);
+        renderRightSurface(blocks, x, y, z);
+    }
+
+    private void renderTopSurface(Block[][][] blocks, int x, int y, int z) {
         if (BlockEnvironmentUtil.isBlockAboveActive(blocks, x, y, z)) {
             vertexPositionData.put(new float[]{
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ,
@@ -35,7 +59,7 @@ public class BlockRenderer {
         }
     }
 
-    public void renderBottomSurface(Block[][][] blocks, int x, int y, int z) {
+    private void renderBottomSurface(Block[][][] blocks, int x, int y, int z) {
         if (BlockEnvironmentUtil.isBlockBeneathActive(blocks, x, y, z)) {
             vertexPositionData.put(new float[]{
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
@@ -46,7 +70,7 @@ public class BlockRenderer {
         }
     }
 
-    public void renderFrontSurface(Block[][][] blocks, int x, int y, int z) {
+    private void renderFrontSurface(Block[][][] blocks, int x, int y, int z) {
         if (BlockEnvironmentUtil.isBlockBeforeActive(blocks, x, y, z)) {
             vertexPositionData.put(new float[]{
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
@@ -57,7 +81,7 @@ public class BlockRenderer {
         }
     }
 
-    public void renderBackSurface(Block[][][] blocks, int x, int y, int z) {
+    private void renderBackSurface(Block[][][] blocks, int x, int y, int z) {
         if (BlockEnvironmentUtil.isBlockBehindActive(blocks, x, y, z)) {
             vertexPositionData.put(new float[]{
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ,
@@ -68,7 +92,7 @@ public class BlockRenderer {
         }
     }
 
-    public void renderLeftSurface(Block[][][] blocks, int x, int y, int z) {
+    private void renderLeftSurface(Block[][][] blocks, int x, int y, int z) {
         if (BlockEnvironmentUtil.isBlockToTheLeftActive(blocks, x, y, z)) {
             vertexPositionData.put(new float[]{
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
@@ -79,7 +103,7 @@ public class BlockRenderer {
         }
     }
 
-    public void renderRightSurface(Block[][][] blocks, int x, int y, int z) {
+    private void renderRightSurface(Block[][][] blocks, int x, int y, int z) {
         if (BlockEnvironmentUtil.isBlockToTheRightActive(blocks, x, y, z)) {
             vertexPositionData.put(new float[]{
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ,

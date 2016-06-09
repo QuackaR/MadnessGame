@@ -8,13 +8,22 @@ import org.lwjgl.opengl.Display;
 
 public class Game {
 
+    private static Game instance;
+
+    public static Game getInstance() {
+        if(instance==null) {
+            instance = new Game();
+        }
+    return instance;
+    }
+
     private GameState gameState;
     private World world;
 
     private Renderer renderer;
     private CameraController cameraController;
 
-    public Game() {
+    private Game() {
         gameState = GameState.State_Menu;
         renderer = new Renderer();
         world = World.getInstance();
@@ -35,5 +44,9 @@ public class Game {
 
     private void draw() {
         renderer.draw(world);
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
     }
 }

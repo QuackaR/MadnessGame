@@ -1,5 +1,6 @@
 package de.krien.games.madness.input;
 
+import de.krien.games.madness.Game;
 import de.krien.games.madness.render.camera.DynamicCameraUtil;
 import de.krien.games.madness.render.voxel.World;
 import org.lwjgl.input.Keyboard;
@@ -51,6 +52,10 @@ public class CameraController {
             System.out.println("Sin of RotationZ: " + Math.sin(Math.toRadians(world.getCamera().getRotationZ())));
             System.out.println("Cos of RotationZ: " + Math.cos(Math.toRadians(world.getCamera().getRotationZ())));
             System.out.println("###############################");
+        }
+
+        if(Keyboard.isKeyDown(Keyboard.KEY_F)) {
+            Game.getInstance().getRenderer().addRayTrace(World.getInstance());
         }
 
         // Zooming with Mouse Wheel
