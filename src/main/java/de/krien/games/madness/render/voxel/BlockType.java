@@ -1,7 +1,5 @@
 package de.krien.games.madness.render.voxel;
 
-import de.krien.games.madness.render.voxel.util.TextureUtil;
-
 public enum BlockType {
 
     DEFAULT(0),

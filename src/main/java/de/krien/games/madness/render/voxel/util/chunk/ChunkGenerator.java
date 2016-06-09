@@ -1,4 +1,4 @@
-package de.krien.games.madness.render.voxel.util;
+package de.krien.games.madness.render.voxel.util.chunk;
 
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Block;

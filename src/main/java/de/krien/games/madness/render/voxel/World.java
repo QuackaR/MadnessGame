@@ -2,7 +2,7 @@ package de.krien.games.madness.render.voxel;
 
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.camera.Camera;
-import de.krien.games.madness.render.voxel.util.ChunkGenerator;
+import de.krien.games.madness.render.voxel.util.chunk.ChunkGenerator;
 
 public class World {
 

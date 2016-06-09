@@ -1,9 +1,7 @@
 package de.krien.games.madness.render.voxel;
 
 import de.krien.games.madness.render.RenderConstants;
-import de.krien.games.madness.render.voxel.util.ChunkRenderer;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
+import de.krien.games.madness.render.voxel.util.chunk.ChunkRenderer;
 
 public class Chunk {
 
@@ -17,8 +15,8 @@ public class Chunk {
     }
 
     public void render(int x, int y) {
-        ChunkRenderer chunkRenderer = new ChunkRenderer();
-        chunkRenderer.renderMesh(this, x, y);
+        ChunkRenderer chunkRenderer = new ChunkRenderer(this);
+        chunkRenderer.render(x, y);
     }
 
     public Block[][][] getBlocks() {

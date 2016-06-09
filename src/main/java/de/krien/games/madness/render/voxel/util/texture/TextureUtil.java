@@ -1,4 +1,4 @@
-package de.krien.games.madness.render.voxel.util;
+package de.krien.games.madness.render.voxel.util.texture;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureLoader;
