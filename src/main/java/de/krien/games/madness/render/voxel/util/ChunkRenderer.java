@@ -71,63 +71,58 @@ public class ChunkRenderer {
         float blockPositionZ = (float) z * RenderConstants.BLOCK_LENGTH;
         int offset = RenderConstants.BLOCK_LENGTH / 2;
 
-        float[] bottom = new float[0];
-        float[] top = new float[0];
-        float[] front = new float[0];
-        float[] back = new float[0];
-        float[] left = new float[0];
-        float[] right = new float[0];
+        float[] backQuad = new float[0];
+        float[] frontQuad = new float[0];
+        float[] bottomQuad = new float[0];
+        float[] topQuad = new float[0];
+        float[] leftQuad = new float[0];
+        float[] rightQuad = new float[0];
 
         if (y == (RenderConstants.CHUNK_SIZE - 1) || blocks[x][y + 1][z] == null || !blocks[x][y + 1][z].isActive()) {
-            bottom = new float[]{
-                    // BOTTOM QUAD(DOWN=+Y) //
+            backQuad = new float[]{
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ,
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ,
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH};
         }
+
         if (y == 0 || blocks[x][y - 1][z] == null || !blocks[x][y - 1][z].isActive()) {
-            top = new float[]{
-                    // TOP!
+            frontQuad = new float[]{
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX - offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX - offset, blockPositionY - offset, blockPositionZ,
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ};
         }
         if (z == 0 || blocks[x][y][z - 1] == null || !blocks[x][y][z - 1].isActive()) {
-            front = new float[]{
-                    // FRONT QUAD // Bottom?
+            bottomQuad = new float[]{
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX - offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH};
         }
         if (z == (RenderConstants.CHUNK_SIZE - 1) || blocks[x][y][z + 1] == null || !blocks[x][y][z + 1].isActive()) {
-            back = new float[]{
-                    // BACK QUAD // Top?
+            topQuad = new float[]{
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ,
                     blockPositionX - offset, blockPositionY - offset, blockPositionZ,
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ,
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ};
         }
         if (x == 0 || blocks[x - 1][y][z] == null || !blocks[x - 1][y][z].isActive()) {
-            left = new float[]{
-                    // LEFT QUAD
+            leftQuad = new float[]{
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ,
                     blockPositionX - offset, blockPositionY - offset, blockPositionZ,
                     blockPositionX - offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH};
         }
         if (x == (RenderConstants.CHUNK_SIZE - 1) || blocks[x + 1][y][z] == null || !blocks[x + 1][y][z].isActive()) {
-            right = new float[]{
-                    // RIGHT QUAD
+            rightQuad = new float[]{
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ,
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
                     blockPositionX + offset, blockPositionY - offset, blockPositionZ};
         }
 
-        return concatAll(bottom, top, front, back, left, right);
+        return concatAll(backQuad, frontQuad, bottomQuad, topQuad, leftQuad, rightQuad);
     }
 
     private float[] createCubeVertexTexture(int x, int y, int z, Block[][][] blocks) {
