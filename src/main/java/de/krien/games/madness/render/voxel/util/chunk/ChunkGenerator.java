@@ -6,6 +6,7 @@ import de.krien.games.madness.render.voxel.BlockType;
 import de.krien.games.madness.render.voxel.Chunk;
 import org.j3d.texture.procedural.PerlinNoiseGenerator;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.util.vector.Vector2f;
 
 import java.util.Random;
 
@@ -13,8 +14,8 @@ public class ChunkGenerator {
 
     private Random random= new Random();
 
-    public Chunk generateBaseChunk() {
-        Chunk chunk = new Chunk();
+    public Chunk generateBaseChunk(Vector2f position) {
+        Chunk chunk = new Chunk(position);
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 Block grassBlock = new Block(BlockType.GRASS);
@@ -35,8 +36,8 @@ public class ChunkGenerator {
         return chunk;
     }
 
-    public Chunk generateLandscapeChunk() {
-        Chunk chunk = new Chunk();
+    public Chunk generateLandscapeChunk(Vector2f position) {
+        Chunk chunk = new Chunk(position);
         float[][] noise = generateSimplexNoise(RenderConstants.CHUNK_SIZE, RenderConstants.CHUNK_SIZE);
 
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
@@ -159,8 +160,8 @@ public class ChunkGenerator {
         return g[0]*x + g[1]*y + g[2]*z;
     }
 
-    public Chunk generateSphereChunk() {
-        Chunk chunk = new Chunk();
+    public Chunk generateSphereChunk(Vector2f position) {
+        Chunk chunk = new Chunk(position);
 
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
@@ -187,8 +188,8 @@ public class ChunkGenerator {
         return chunk;
     }
 
-    public Chunk generateRandomChunk() {
-        Chunk chunk = new Chunk();
+    public Chunk generateRandomChunk(Vector2f position) {
+        Chunk chunk = new Chunk(position);
 
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
@@ -217,8 +218,8 @@ public class ChunkGenerator {
         return chunk;
     }
 
-    public Chunk generateProChunk() {
-        Chunk chunk = new Chunk();
+    public Chunk generateProChunk(Vector2f position) {
+        Chunk chunk = new Chunk(position);
 
         for(int z = 0; z < 5; z++) {
             int y = 32;

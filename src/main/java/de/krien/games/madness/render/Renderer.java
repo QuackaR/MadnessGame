@@ -1,8 +1,11 @@
 package de.krien.games.madness.render;
 
+import de.krien.games.madness.render.debug.CameraSight;
 import de.krien.games.madness.render.debug.ImmediateDrawUtil;
+import de.krien.games.madness.render.debug.RayPick;
 import de.krien.games.madness.render.hud.stats.FpsHudRenderer;
 import de.krien.games.madness.render.ray.Ray;
+import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.World;
 import de.krien.games.madness.render.voxel.util.texture.TextureUtil;
@@ -68,9 +71,13 @@ public class Renderer {
         try {
             clearMatrix();
             drawMatrix(world);
-            if (drawLine) {
-                drawCamSight(camPosAtToggleTime, sightPoint, 1.0f);
+            if (CameraSight.INSTANCE.shouldDrawCameraSight()) {
+                CameraSight.INSTANCE.drawCameraSight();
             }
+            if (RayPick.INSTANCE.shouldDrawLineToRayPickedBlock()) {
+                RayPick.INSTANCE.drawLineToRayPickedBlock();
+            }
+
             updateCamera(world);
             fpsHudRenderer.drawFps();
 
@@ -110,37 +117,4 @@ public class Renderer {
             }
         }
     }
-
-    private boolean drawLine;
-
-    private Vector3f camPosAtToggleTime;
-    private Vector3f camRotAtToggleTime;
-    private Vector3f sightPoint;
-
-    public void toggleLineDraw() {
-        if (drawLine == false) {
-            camPosAtToggleTime = new Vector3f(
-                    -1 * World.getInstance().getCamera().getPositionX(),
-                    -1 * World.getInstance().getCamera().getPositionY(),
-                    -1 * World.getInstance().getCamera().getPositionZ());
-            camRotAtToggleTime = new Vector3f(
-                    World.getInstance().getCamera().getRotationX(),
-                    World.getInstance().getCamera().getRotationY(),
-                    World.getInstance().getCamera().getRotationZ());
-
-            Ray ray = new Ray(camPosAtToggleTime, camRotAtToggleTime);
-            sightPoint = ray.getPoint(25.0f);
-            drawLine = true;
-        } else {
-            drawLine = false;
-        }
-    }
-
-    private void drawCamSight(Vector3f position, Vector3f sightPoint, float size) {
-        ImmediateDrawUtil.drawBlock(position, size);
-        ImmediateDrawUtil.drawBlock(sightPoint, size);
-        ImmediateDrawUtil.drawLine(position, sightPoint);
-    }
-
-
 }

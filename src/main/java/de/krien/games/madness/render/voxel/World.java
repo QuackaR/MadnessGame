@@ -3,6 +3,7 @@ package de.krien.games.madness.render.voxel;
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.camera.Camera;
 import de.krien.games.madness.render.voxel.util.chunk.ChunkGenerator;
+import org.lwjgl.util.vector.Vector2f;
 
 public class World {
 
@@ -16,8 +17,8 @@ public class World {
         chunks = new Chunk[RenderConstants.WORLD_SIZE_X][RenderConstants.WORLD_SIZE_Y];
         for(int x = 0; x < chunks.length; x++) {
             for(int y = 0; y < chunks[x].length; y++) {
-                Chunk chunk = new ChunkGenerator().generateLandscapeChunk();
-                chunk.render(x, y);
+                Chunk chunk = new ChunkGenerator().generateLandscapeChunk(new Vector2f(x, y));
+                chunk.render();
                 chunks[x][y] = chunk;
             }
         }

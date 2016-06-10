@@ -2,6 +2,8 @@ package de.krien.games.madness.input;
 
 import de.krien.games.madness.Game;
 import de.krien.games.madness.render.camera.DynamicCameraUtil;
+import de.krien.games.madness.render.debug.CameraSight;
+import de.krien.games.madness.render.debug.RayPick;
 import de.krien.games.madness.render.voxel.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -55,8 +57,12 @@ public class CameraController {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_F)) {
-            System.out.println("Toggled Line Draw");
-            Game.getInstance().getRenderer().toggleLineDraw();
+            CameraSight.INSTANCE.toggleActivity();
+        }
+
+        if(Keyboard.isKeyDown(Keyboard.KEY_G)) {
+            System.out.println("RayPink Toggled");
+            RayPick.INSTANCE.toggleActivity();
         }
 
         // Zooming with Mouse Wheel

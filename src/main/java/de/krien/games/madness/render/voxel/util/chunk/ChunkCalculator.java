@@ -23,10 +23,10 @@ public class ChunkCalculator {
         this.chunk = chunk;
     }
 
-    public void render(int chunkX, int chunkY) {
+    public void render() {
         initBuffers(chunk);
         initVertexBuffer();
-        calculateChunkOffset(chunkX, chunkY);
+        calculateChunkOffset();
 
         renderChunk();
 
@@ -66,9 +66,9 @@ public class ChunkCalculator {
         vertexTextureData = BufferUtils.createFloatBuffer((RenderConstants.CHUNK_BLOCK_COUNT) * 6 * 12);
     }
 
-    private void calculateChunkOffset(int chunkX, int chunkY) {
-        chunkOffsetX = RenderConstants.BLOCK_LENGTH * RenderConstants.CHUNK_SIZE * chunkX;
-        chunkOffsetY = RenderConstants.BLOCK_LENGTH * RenderConstants.CHUNK_SIZE * chunkY;
+    private void calculateChunkOffset() {
+        chunkOffsetX = RenderConstants.BLOCK_LENGTH * RenderConstants.CHUNK_SIZE * chunk.getPosition().getX();
+        chunkOffsetY = RenderConstants.BLOCK_LENGTH * RenderConstants.CHUNK_SIZE * chunk.getPosition().getY();
     }
 
     private void flipVertexBuffer() {
