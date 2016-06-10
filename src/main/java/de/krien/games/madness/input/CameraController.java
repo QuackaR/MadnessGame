@@ -55,7 +55,7 @@ public class CameraController {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_F)) {
-            Game.getInstance().getRenderer().addRayTrace(World.getInstance());
+            // Set Block
         }
 
         // Zooming with Mouse Wheel
