@@ -55,7 +55,8 @@ public class CameraController {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_F)) {
-            // Set Block
+            System.out.println("Toggled Line Draw");
+            Game.getInstance().getRenderer().toggleLineDraw();
         }
 
         // Zooming with Mouse Wheel

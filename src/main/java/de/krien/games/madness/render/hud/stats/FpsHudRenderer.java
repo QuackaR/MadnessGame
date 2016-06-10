@@ -1,4 +1,4 @@
-package de.krien.games.madness.render;
+package de.krien.games.madness.render.hud.stats;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;

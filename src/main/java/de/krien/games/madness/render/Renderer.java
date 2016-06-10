@@ -1,19 +1,17 @@
 package de.krien.games.madness.render;
 
+import de.krien.games.madness.render.debug.ImmediateDrawUtil;
+import de.krien.games.madness.render.hud.stats.FpsHudRenderer;
 import de.krien.games.madness.render.ray.Ray;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.World;
-import de.krien.games.madness.render.voxel.util.block.BlockRenderer;
 import de.krien.games.madness.render.voxel.util.texture.TextureUtil;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
-
-import javax.vecmath.Vector3f;
-import java.nio.FloatBuffer;
+import org.lwjgl.util.vector.Vector3f;
 
 public class Renderer {
 
@@ -49,7 +47,8 @@ public class Renderer {
     private void initGL() {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glShadeModel(GL11.GL_SMOOTH);
-        GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        //GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Black Background
+        GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //White Background
         GL11.glClearDepth(1.0);
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -68,10 +67,12 @@ public class Renderer {
     public void draw(World world) {
         try {
             clearMatrix();
+            drawMatrix(world);
+            if (drawLine) {
+                drawCamSight(camPosAtToggleTime, sightPoint, 1.0f);
+            }
             updateCamera(world);
             fpsHudRenderer.drawFps();
-
-            drawMatrix(world);
 
             Display.update();
             Display.sync(RenderConstants.MAX_FPS);
@@ -93,10 +94,11 @@ public class Renderer {
     }
 
     private void drawMatrix(World world) {
+
         TextureUtil.INSTANCE.bind();
         Chunk[][] chunks = world.getChunks();
-        for(int x = 0; x < chunks.length; x++) {
-            for(int y = 0; y < chunks[0].length; y++) {
+        for (int x = 0; x < chunks.length; x++) {
+            for (int y = 0; y < chunks[0].length; y++) {
                 Chunk chunk = chunks[x][y];
                 GL11.glPushMatrix();
                 GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, chunk.getVboVertexHandle());
@@ -108,4 +110,37 @@ public class Renderer {
             }
         }
     }
+
+    private boolean drawLine;
+
+    private Vector3f camPosAtToggleTime;
+    private Vector3f camRotAtToggleTime;
+    private Vector3f sightPoint;
+
+    public void toggleLineDraw() {
+        if (drawLine == false) {
+            camPosAtToggleTime = new Vector3f(
+                    -1 * World.getInstance().getCamera().getPositionX(),
+                    -1 * World.getInstance().getCamera().getPositionY(),
+                    -1 * World.getInstance().getCamera().getPositionZ());
+            camRotAtToggleTime = new Vector3f(
+                    World.getInstance().getCamera().getRotationX(),
+                    World.getInstance().getCamera().getRotationY(),
+                    World.getInstance().getCamera().getRotationZ());
+
+            Ray ray = new Ray(camPosAtToggleTime, camRotAtToggleTime);
+            sightPoint = ray.getPoint(25.0f);
+            drawLine = true;
+        } else {
+            drawLine = false;
+        }
+    }
+
+    private void drawCamSight(Vector3f position, Vector3f sightPoint, float size) {
+        ImmediateDrawUtil.drawBlock(position, size);
+        ImmediateDrawUtil.drawBlock(sightPoint, size);
+        ImmediateDrawUtil.drawLine(position, sightPoint);
+    }
+
+
 }

@@ -1,16 +1,15 @@
 package de.krien.games.madness.render.voxel.util.chunk;
 
 import de.krien.games.madness.render.RenderConstants;
-import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.util.block.BlockEnvironmentUtil;
-import de.krien.games.madness.render.voxel.util.block.BlockRenderer;
+import de.krien.games.madness.render.voxel.util.block.BlockCalculator;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
 
 import java.nio.FloatBuffer;
 
-public class ChunkRenderer {
+public class ChunkCalculator {
 
     private Chunk chunk;
 
@@ -20,7 +19,7 @@ public class ChunkRenderer {
     private float chunkOffsetX;
     private float chunkOffsetY;
 
-    public ChunkRenderer(Chunk chunk) {
+    public ChunkCalculator(Chunk chunk) {
         this.chunk = chunk;
     }
 
@@ -52,8 +51,8 @@ public class ChunkRenderer {
             float blockPositionZ = (float) z * RenderConstants.BLOCK_LENGTH;
             int offset = RenderConstants.BLOCK_LENGTH / 2;
 
-            BlockRenderer blockRenderer = new BlockRenderer(blockPositionX, blockPositionY, blockPositionZ, offset, vertexPositionData, vertexTextureData);
-            blockRenderer.renderBlock(chunk.getBlocks(), x, y, z);
+            BlockCalculator blockCalculator = new BlockCalculator(blockPositionX, blockPositionY, blockPositionZ, offset, vertexPositionData, vertexTextureData);
+            blockCalculator.renderBlock(chunk.getBlocks(), x, y, z);
         }
     }
 

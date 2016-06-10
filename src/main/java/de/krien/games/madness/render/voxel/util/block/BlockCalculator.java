@@ -6,7 +6,7 @@ import de.krien.games.madness.render.voxel.BlockType;
 
 import java.nio.FloatBuffer;
 
-public class BlockRenderer {
+public class BlockCalculator {
 
     private float blockPositionX;
     private float blockPositionY;
@@ -16,7 +16,7 @@ public class BlockRenderer {
     private FloatBuffer vertexPositionData;
     private FloatBuffer vertexTextureData;
 
-    public BlockRenderer(float blockPositionX, float blockPositionY, float blockPositionZ, int offset, FloatBuffer vertexPositionData, FloatBuffer vertexTextureData) {
+    public BlockCalculator(float blockPositionX, float blockPositionY, float blockPositionZ, int offset, FloatBuffer vertexPositionData, FloatBuffer vertexTextureData) {
         this.blockPositionX = blockPositionX;
         this.blockPositionY = blockPositionY;
         this.blockPositionZ = blockPositionZ;
