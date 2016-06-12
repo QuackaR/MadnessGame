@@ -10,6 +10,9 @@ import de.krien.games.madness.render.voxel.util.block.BlockPositionUtil;
 import de.krien.games.madness.render.voxel.util.chunk.ChunkPositionUtil;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum RayPick {
 
     INSTANCE;
@@ -29,7 +32,7 @@ public enum RayPick {
     public void toggleActivity() {
         if (shouldDrawLineToRayPickedBlock == false) {
             updateActiveBlock();
-            if(rayPickedBlockPosition != null) {
+            if(rayPickedBlock != null && rayPickedBlockPosition != null) {
                 shouldDrawLineToRayPickedBlock = true;
                 rayPickedBlock.setBlockType(BlockType.WOOD);
                 rayPickedChunk.render();
@@ -55,8 +58,8 @@ public enum RayPick {
 
     private Block getFirstBlockInSight() {
         Ray ray = new Ray(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
-        for(float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i+= (RenderConstants.BLOCK_LENGTH / 2)) {
-            Vector3f sightPoint = ray.getPoint(CAMERA_SIGHT_DISTANCE);
+        for(float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i+= (RenderConstants.BLOCK_LENGTH)) {
+            Vector3f sightPoint = ray.getPoint(i);
             Chunk chunk = ChunkPositionUtil.getChunkOfPoint(sightPoint);
             if(chunk != null) {
                 rayPickedChunk = chunk;
@@ -69,7 +72,7 @@ public enum RayPick {
     private Vector3f getPositionOfFirstBlockInSight() {
         Ray ray = new Ray(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
         for(float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i+= RenderConstants.BLOCK_LENGTH) {
-            Vector3f sightPoint = ray.getPoint(CAMERA_SIGHT_DISTANCE);
+            Vector3f sightPoint = ray.getPoint(i);
             Chunk chunk = ChunkPositionUtil.getChunkOfPoint(sightPoint);
             if(chunk != null) {
                 return BlockPositionUtil.getBlockPositionOfPoint(chunk, sightPoint);
@@ -79,7 +82,7 @@ public enum RayPick {
     }
 
     public void drawLineToRayPickedBlock() {
-        ImmediateDrawUtil.drawBlock(cameraPositionAtToggleTime, CAMERA_SIGHT_POINT_SIZE);
+        //ImmediateDrawUtil.drawBlock(cameraPositionAtToggleTime, CAMERA_SIGHT_POINT_SIZE);
         //ImmediateDrawUtil.drawBlock(rayPickedBlockPosition, CAMERA_SIGHT_POINT_SIZE);
         ImmediateDrawUtil.drawLine(cameraPositionAtToggleTime, rayPickedBlockPosition);
     }
