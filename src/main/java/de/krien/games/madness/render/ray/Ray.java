@@ -14,8 +14,8 @@ public class Ray {
 
     public Vector3f getPoint(float distance) {
         Vector3f point = new Vector3f();
-        float deltaX = -1 * distance * (float) Math.sin(Math.toRadians(direction.z));
-        float deltaY = -1 * distance * (float) Math.cos(Math.toRadians(direction.z));
+        float deltaX = -1 * distance * (float) Math.sin(Math.toRadians(direction.z)) * (float)Math.cos(Math.toRadians(direction.x + 90));
+        float deltaY = -1 * distance * (float) Math.cos(Math.toRadians(direction.z)) * (float)Math.cos(Math.toRadians(direction.x + 90));
         float deltaZ = -1 * distance * (float) Math.sin(Math.toRadians(direction.x + 90));
         point.setX(origin.x - deltaX);
         point.setY(origin.y - deltaY);

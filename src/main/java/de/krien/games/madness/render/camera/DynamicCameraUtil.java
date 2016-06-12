@@ -9,8 +9,8 @@ public class DynamicCameraUtil {
     }
 
     public void moveForward(float amount) {
-        float bfMovementX = amount * (float)Math.sin(Math.toRadians(camera.getRotationZ()));
-        float bfMovementY = amount * (float)Math.cos(Math.toRadians(camera.getRotationZ()));
+        float bfMovementX = amount * (float)Math.sin(Math.toRadians(camera.getRotationZ())) * (float)Math.cos(Math.toRadians(camera.getRotationX() + 90));
+        float bfMovementY = amount * (float)Math.cos(Math.toRadians(camera.getRotationZ())) * (float)Math.cos(Math.toRadians(camera.getRotationX() + 90));
         float bfMovementZ = amount * (float)Math.sin(Math.toRadians(camera.getRotationX() + 90));
         camera.decreasePositionX(bfMovementX);
         camera.decreasePositionY(bfMovementY);
@@ -18,8 +18,8 @@ public class DynamicCameraUtil {
     }
 
     public void moveBackward(float amount) {
-        float bfMovementX = amount * (float)Math.sin(Math.toRadians(camera.getRotationZ()));
-        float bfMovementY = amount * (float)Math.cos(Math.toRadians(camera.getRotationZ()));
+        float bfMovementX = amount * (float)Math.sin(Math.toRadians(camera.getRotationZ())) * (float)Math.cos(Math.toRadians(camera.getRotationX() + 90));
+        float bfMovementY = amount * (float)Math.cos(Math.toRadians(camera.getRotationZ())) * (float)Math.cos(Math.toRadians(camera.getRotationX() + 90));
         float bfMovementZ = amount * (float)Math.sin(Math.toRadians(camera.getRotationX() + 90));
         camera.increasePositionX(bfMovementX);
         camera.increasePositionY(bfMovementY);

@@ -47,6 +47,10 @@ public class CameraController {
             System.out.println("PositionY: " + world.getCamera().getPositionY());
             System.out.println("PositionZ: " + world.getCamera().getPositionZ());
 
+            System.out.println("Rad of RotationX: " + Math.toRadians(world.getCamera().getRotationX()));
+            System.out.println("Rad of RotationY: " + Math.toRadians(world.getCamera().getRotationY()));
+            System.out.println("Rad of RotationZ: " + Math.toRadians(world.getCamera().getRotationZ()));
+
             System.out.println("Sin of RotationX: " + Math.sin(Math.toRadians(world.getCamera().getRotationX())));
             System.out.println("Cos of RotationX: " + Math.cos(Math.toRadians(world.getCamera().getRotationX())));
             System.out.println("Sin of RotationY: " + Math.sin(Math.toRadians(world.getCamera().getRotationY())));

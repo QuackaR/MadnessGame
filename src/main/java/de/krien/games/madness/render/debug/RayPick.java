@@ -55,7 +55,7 @@ public enum RayPick {
 
     private Block getFirstBlockInSight() {
         Ray ray = new Ray(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
-        for(float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i+= RenderConstants.BLOCK_LENGTH) {
+        for(float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i+= (RenderConstants.BLOCK_LENGTH / 2)) {
             Vector3f sightPoint = ray.getPoint(CAMERA_SIGHT_DISTANCE);
             Chunk chunk = ChunkPositionUtil.getChunkOfPoint(sightPoint);
             if(chunk != null) {
