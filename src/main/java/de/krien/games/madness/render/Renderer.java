@@ -74,9 +74,6 @@ public class Renderer {
             if (CameraSight.INSTANCE.shouldDrawCameraSight()) {
                 CameraSight.INSTANCE.drawCameraSight();
             }
-            if (RayPick.INSTANCE.shouldDrawLineToRayPickedBlock()) {
-                RayPick.INSTANCE.drawLineToRayPickedBlock();
-            }
 
             updateCamera(world);
             fpsHudRenderer.drawFps();

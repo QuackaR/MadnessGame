@@ -8,6 +8,7 @@ import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.World;
 import de.krien.games.madness.render.voxel.util.block.BlockPositionUtil;
 import de.krien.games.madness.render.voxel.util.chunk.ChunkPositionUtil;
+import org.lwjgl.Sys;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
@@ -17,77 +18,53 @@ public enum RayPick {
 
     INSTANCE;
 
-    private static final float CAMERA_SIGHT_DISTANCE = 25.0f;
-    private static final float CAMERA_SIGHT_POINT_SIZE = 1.0f;
-
-    private boolean shouldDrawLineToRayPickedBlock;
-
-    private Vector3f cameraPositionAtToggleTime;
-    private Vector3f cameraRotationAtToggleTime;
-
     private Vector3f rayPickedBlockPosition;
     private Block rayPickedBlock;
     private Chunk rayPickedChunk;
 
-    public void toggleActivity() {
-        if (shouldDrawLineToRayPickedBlock == false) {
-            updateActiveBlock();
-            if(rayPickedBlock != null && rayPickedBlockPosition != null) {
-                shouldDrawLineToRayPickedBlock = true;
-                rayPickedBlock.setBlockType(BlockType.WOOD);
-                rayPickedChunk.render();
-            }
-        } else {
-            shouldDrawLineToRayPickedBlock = false;
+    public void updateSelection() {
+        if(rayPickedBlock != null) {
+            rayPickedBlock.setSelected(false);
+            System.out.println("1");
+        }
+        updateActiveBlock();
+        System.out.println("2");
+        if (rayPickedBlock != null && rayPickedBlockPosition != null) {
+            rayPickedBlock.setSelected(true);
+            rayPickedBlock.setBlockType(BlockType.WOOD);
+            rayPickedChunk.render();
+            System.out.println("3");
         }
     }
 
     private void updateActiveBlock() {
-         cameraPositionAtToggleTime = new Vector3f(
+        Vector3f cameraPositionAtToggleTime = new Vector3f(
                 -1 * World.getInstance().getCamera().getPositionX(),
                 -1 * World.getInstance().getCamera().getPositionY(),
                 -1 * World.getInstance().getCamera().getPositionZ());
-        cameraRotationAtToggleTime = new Vector3f(
+        Vector3f cameraRotationAtToggleTime = new Vector3f(
                 World.getInstance().getCamera().getRotationX(),
                 World.getInstance().getCamera().getRotationY(),
                 World.getInstance().getCamera().getRotationZ());
-
-        rayPickedBlockPosition = getPositionOfFirstBlockInSight();
-        rayPickedBlock = getFirstBlockInSight();
+        calculateFirstBlockInSight(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
     }
 
-    private Block getFirstBlockInSight() {
+    private void calculateFirstBlockInSight(Vector3f cameraPositionAtToggleTime, Vector3f cameraRotationAtToggleTime) {
         Ray ray = new Ray(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
-        for(float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i+= (RenderConstants.BLOCK_LENGTH)) {
+        for (float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i += RenderConstants.BLOCK_LENGTH) {
             Vector3f sightPoint = ray.getPoint(i);
             Chunk chunk = ChunkPositionUtil.getChunkOfPoint(sightPoint);
-            if(chunk != null) {
+            if (chunk != null) {
                 rayPickedChunk = chunk;
-                return BlockPositionUtil.getBlockOfPoint(chunk, sightPoint);
+                rayPickedBlockPosition = BlockPositionUtil.getBlockPositionOfPoint(chunk, sightPoint);
+                rayPickedBlock = BlockPositionUtil.getBlockOfPoint(chunk, sightPoint);
+
+                if (rayPickedBlockPosition != null) {
+                    return;
+                } else {
+                    continue;
+                }
             }
         }
-        return null;
-    }
-
-    private Vector3f getPositionOfFirstBlockInSight() {
-        Ray ray = new Ray(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
-        for(float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i+= RenderConstants.BLOCK_LENGTH) {
-            Vector3f sightPoint = ray.getPoint(i);
-            Chunk chunk = ChunkPositionUtil.getChunkOfPoint(sightPoint);
-            if(chunk != null) {
-                return BlockPositionUtil.getBlockPositionOfPoint(chunk, sightPoint);
-            }
-        }
-        return null;
-    }
-
-    public void drawLineToRayPickedBlock() {
-        //ImmediateDrawUtil.drawBlock(cameraPositionAtToggleTime, CAMERA_SIGHT_POINT_SIZE);
-        //ImmediateDrawUtil.drawBlock(rayPickedBlockPosition, CAMERA_SIGHT_POINT_SIZE);
-        ImmediateDrawUtil.drawLine(cameraPositionAtToggleTime, rayPickedBlockPosition);
-    }
-
-    public boolean shouldDrawLineToRayPickedBlock() {
-        return shouldDrawLineToRayPickedBlock;
     }
 }

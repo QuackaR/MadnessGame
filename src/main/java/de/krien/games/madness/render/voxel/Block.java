@@ -3,6 +3,7 @@ package de.krien.games.madness.render.voxel;
 public class Block {
 
     private boolean isActive;
+    private boolean isSelected;
     private BlockType blockType;
 
     public Block(BlockType blockType) {
@@ -16,6 +17,14 @@ public class Block {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public BlockType getBlockType() {

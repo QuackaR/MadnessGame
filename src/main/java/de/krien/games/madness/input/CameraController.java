@@ -1,6 +1,5 @@
 package de.krien.games.madness.input;
 
-import de.krien.games.madness.Game;
 import de.krien.games.madness.render.camera.DynamicCameraUtil;
 import de.krien.games.madness.render.debug.CameraSight;
 import de.krien.games.madness.render.debug.RayPick;
@@ -65,8 +64,7 @@ public class CameraController {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_G)) {
-            System.out.println("RayPink Toggled");
-            RayPick.INSTANCE.toggleActivity();
+            RayPick.INSTANCE.updateSelection();
         }
 
         // Zooming with Mouse Wheel

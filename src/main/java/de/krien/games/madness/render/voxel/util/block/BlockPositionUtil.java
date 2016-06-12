@@ -15,7 +15,7 @@ public class BlockPositionUtil {
                 for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
                     Vector3f blockIndex = new Vector3f(x, y, z);
                     Block block = chunk.getBlocks()[x][y][z];
-                    if (positionIsInBlock(chunk, block, blockIndex, position)) {
+                    if (block != null && block.isActive() && BlockEnvironmentUtil.shouldRenderBlock(chunk.getBlocks(),x,y,z) && positionIsInBlock(chunk, block, blockIndex, position)) {
                         return block;
                     }
                 }
@@ -43,9 +43,28 @@ public class BlockPositionUtil {
     private static boolean positionIsInBlock(Chunk chunk, Block block, Vector3f blockIndex, Vector3f position) {
         Vector3f minCorner = getMinCorner(position, chunk, block, blockIndex);
         Vector3f maxCorner = getMaxCorner(position, chunk, block, blockIndex);
-        if (position.getX() >= minCorner.getX() && position.getX() <= maxCorner.getX()
-                && position.getY() >= minCorner.getY() && position.getY() <= maxCorner.getY()
-                && position.getZ() >= minCorner.getZ() && position.getZ() <= maxCorner.getZ()) {
+
+        int posXMinXComparansion = new Float(position.getX()).compareTo(new Float(minCorner.getX()));
+        int posXMaxXComparansion = new Float(position.getX()).compareTo(new Float(maxCorner.getX()));
+        int posYMinYComparansion = new Float(position.getY()).compareTo(new Float(minCorner.getY()));
+        int posYMaxYComparansion = new Float(position.getY()).compareTo(new Float(maxCorner.getY()));
+        int posZMinZComparansion = new Float(position.getZ()).compareTo(new Float(minCorner.getZ()));
+        int posZMaxZComparansion = new Float(position.getZ()).compareTo(new Float(maxCorner.getZ()));
+
+        boolean posXisGreaterThenMinX = posXMinXComparansion >= 0;
+        boolean posXisLesserThenMaxX = posXMaxXComparansion <= 0;
+        boolean posYisGreaterThenMinY = posYMinYComparansion >= 0;
+        boolean posYisLesserThenMaxY = posYMaxYComparansion <= 0;
+        boolean posZisGreaterThenMinZ = posZMinZComparansion >= 0;
+        boolean posZisLesserThenMaxZ = posZMaxZComparansion <= 0;
+
+        if (posXisGreaterThenMinX && posXisLesserThenMaxX
+                && posYisGreaterThenMinY && posYisLesserThenMaxY
+                && posZisGreaterThenMinZ && posZisLesserThenMaxZ) {
+
+            System.out.println("Block - MinCorner: " + minCorner.getX() + ":" + minCorner.getY() + ":" + minCorner.getZ());
+            System.out.println("Block - MaxCorner: " + maxCorner.getX() + ":" + maxCorner.getY() + ":" + maxCorner.getZ());
+            System.out.println("Block - RayPickPosition: " + position.getX() + ":" + position.getY() + ":" + position.getZ());
             return true;
         }
         return false;

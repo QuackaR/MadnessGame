@@ -24,9 +24,24 @@ public class ChunkPositionUtil {
     private static boolean positionIsInChunk(Vector3f position, Chunk chunk) {
         Vector3f minCorner = getMinCorner(position, chunk);
         Vector3f maxCorner = getMaxCorner(position, chunk);
-        if(position.getX() >= minCorner.getX() && position.getX() <= maxCorner.getX()
-                && position.getY() >= minCorner.getY() && position.getY() <= maxCorner.getY()
-                &&position.getZ() >= minCorner.getZ() && position.getZ() <= maxCorner.getZ()) {
+
+        int posXMinXComparansion = new Float(position.getX()).compareTo(new Float(minCorner.getX()));
+        int posXMaxXComparansion = new Float(position.getX()).compareTo(new Float(maxCorner.getX()));
+        int posYMinYComparansion = new Float(position.getY()).compareTo(new Float(minCorner.getY()));
+        int posYMaxYComparansion = new Float(position.getY()).compareTo(new Float(maxCorner.getY()));
+        int posZMinZComparansion = new Float(position.getZ()).compareTo(new Float(minCorner.getZ()));
+        int posZMaxZComparansion = new Float(position.getZ()).compareTo(new Float(maxCorner.getZ()));
+
+        boolean posXisGreaterThenMinX = posXMinXComparansion >= 0;
+        boolean posXisLesserThenMaxX = posXMaxXComparansion <= 0;
+        boolean posYisGreaterThenMinY = posYMinYComparansion >= 0;
+        boolean posYisLesserThenMaxY = posYMaxYComparansion <= 0;
+        boolean posZisGreaterThenMinZ = posZMinZComparansion >= 0;
+        boolean posZisLesserThenMaxZ = posZMaxZComparansion <= 0;
+
+        if (posXisGreaterThenMinX && posXisLesserThenMaxX
+                && posYisGreaterThenMinY && posYisLesserThenMaxY
+                && posZisGreaterThenMinZ && posZisLesserThenMaxZ) {
             return true;
         }
         return false;
