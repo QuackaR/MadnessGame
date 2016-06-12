@@ -55,7 +55,12 @@ public class BlockCalculator {
                     blockPositionX - offset, blockPositionY - offset, blockPositionZ,
                     blockPositionX - offset, blockPositionY + offset, blockPositionZ,
                     blockPositionX + offset, blockPositionY + offset, blockPositionZ});
-            vertexTextureData.put(generateSurfaceTextureCoordinates(1, blocks[x][y][z].getBlockType().getBlockID()));
+            if(blocks[x][y][z].isSelected()) {
+                vertexTextureData.put(generateSurfaceTextureCoordinates(1, BlockType.SAND.getBlockID()));
+            } else {
+                vertexTextureData.put(generateSurfaceTextureCoordinates(1, blocks[x][y][z].getBlockType().getBlockID()));
+            }
+
         }
     }
 

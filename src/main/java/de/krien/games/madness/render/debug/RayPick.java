@@ -25,15 +25,12 @@ public enum RayPick {
     public void updateSelection() {
         if(rayPickedBlock != null) {
             rayPickedBlock.setSelected(false);
-            System.out.println("1");
         }
         updateActiveBlock();
-        System.out.println("2");
         if (rayPickedBlock != null && rayPickedBlockPosition != null) {
             rayPickedBlock.setSelected(true);
-            rayPickedBlock.setBlockType(BlockType.WOOD);
+            //rayPickedBlock.setBlockType(BlockType.WOOD);
             rayPickedChunk.render();
-            System.out.println("3");
         }
     }
 
@@ -51,7 +48,7 @@ public enum RayPick {
 
     private void calculateFirstBlockInSight(Vector3f cameraPositionAtToggleTime, Vector3f cameraRotationAtToggleTime) {
         Ray ray = new Ray(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
-        for (float i = 0.1f; i < RenderConstants.VIEW_DISTANCE; i += RenderConstants.BLOCK_LENGTH) {
+        for (float i = 0.1f; i < 25.0f; i += RenderConstants.BLOCK_LENGTH) {
             Vector3f sightPoint = ray.getPoint(i);
             Chunk chunk = ChunkPositionUtil.getChunkOfPoint(sightPoint);
             if (chunk != null) {

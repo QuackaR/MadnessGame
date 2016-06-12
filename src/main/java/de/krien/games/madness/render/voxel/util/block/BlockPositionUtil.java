@@ -61,10 +61,6 @@ public class BlockPositionUtil {
         if (posXisGreaterThenMinX && posXisLesserThenMaxX
                 && posYisGreaterThenMinY && posYisLesserThenMaxY
                 && posZisGreaterThenMinZ && posZisLesserThenMaxZ) {
-
-            System.out.println("Block - MinCorner: " + minCorner.getX() + ":" + minCorner.getY() + ":" + minCorner.getZ());
-            System.out.println("Block - MaxCorner: " + maxCorner.getX() + ":" + maxCorner.getY() + ":" + maxCorner.getZ());
-            System.out.println("Block - RayPickPosition: " + position.getX() + ":" + position.getY() + ":" + position.getZ());
             return true;
         }
         return false;
