@@ -40,6 +40,21 @@ public class BlockPositionUtil {
         return null;
     }
 
+    public static Vector3f getBlockIndexOfPoint(Chunk chunk, Vector3f position) {
+        for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
+            for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
+                for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
+                    Vector3f blockIndex = new Vector3f(x, y, z);
+                    Block block = chunk.getBlocks()[x][y][z];
+                    if (block != null && block.isActive() && BlockEnvironmentUtil.shouldRenderBlock(chunk.getBlocks(),x,y,z) && positionIsInBlock(chunk, block, blockIndex, position)) {
+                        return new Vector3f(x, y, z);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private static boolean positionIsInBlock(Chunk chunk, Block block, Vector3f blockIndex, Vector3f position) {
         Vector3f minCorner = getMinCorner(position, chunk, block, blockIndex);
         Vector3f maxCorner = getMaxCorner(position, chunk, block, blockIndex);

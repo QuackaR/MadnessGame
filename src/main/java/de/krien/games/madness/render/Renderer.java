@@ -1,11 +1,7 @@
 package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.debug.CameraSight;
-import de.krien.games.madness.render.debug.ImmediateDrawUtil;
-import de.krien.games.madness.render.debug.RayPick;
 import de.krien.games.madness.render.hud.stats.FpsHudRenderer;
-import de.krien.games.madness.render.ray.Ray;
-import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.World;
 import de.krien.games.madness.render.voxel.util.texture.TextureUtil;
@@ -14,7 +10,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
-import org.lwjgl.util.vector.Vector3f;
 
 public class Renderer {
 

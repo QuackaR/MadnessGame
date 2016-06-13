@@ -2,7 +2,8 @@ package de.krien.games.madness.input;
 
 import de.krien.games.madness.render.camera.DynamicCameraUtil;
 import de.krien.games.madness.render.debug.CameraSight;
-import de.krien.games.madness.render.debug.RayPick;
+import de.krien.games.madness.render.ray.BlockSelector;
+import de.krien.games.madness.render.ray.RayPick;
 import de.krien.games.madness.render.voxel.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -16,10 +17,12 @@ public class CameraController {
 
     private World world;
     private DynamicCameraUtil cameraUtil;
+    private BlockSelector blockSelector;
 
     public CameraController() {
         world = World.getInstance();
         cameraUtil = new DynamicCameraUtil(world.getCamera());
+        blockSelector = new BlockSelector();
     }
 
     public void processInput() {
@@ -64,7 +67,7 @@ public class CameraController {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_G)) {
-            RayPick.INSTANCE.updateSelection();
+            blockSelector.selectBlock();
         }
 
         // Zooming with Mouse Wheel
