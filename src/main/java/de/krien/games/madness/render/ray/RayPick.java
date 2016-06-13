@@ -3,7 +3,6 @@ package de.krien.games.madness.render.ray;
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
-import de.krien.games.madness.render.voxel.World;
 import de.krien.games.madness.render.voxel.util.block.BlockPositionUtil;
 import de.krien.games.madness.render.voxel.util.chunk.ChunkPositionUtil;
 import org.lwjgl.util.vector.Vector3f;

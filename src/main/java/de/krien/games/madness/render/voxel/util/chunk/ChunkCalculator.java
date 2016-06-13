@@ -4,8 +4,11 @@ import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.util.block.BlockEnvironmentUtil;
 import de.krien.games.madness.render.voxel.util.block.BlockCalculator;
+import de.krien.games.madness.render.voxel.util.block.BlockPositionUtil;
+import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.nio.FloatBuffer;
 
@@ -38,21 +41,19 @@ public class ChunkCalculator {
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
-                    renderBlock(x, y, z);
+                    renderBlock(new Vector3i(x, y, z));
                 }
             }
         }
     }
 
-    private void renderBlock(int x, int y, int z) {
-        if (BlockEnvironmentUtil.shouldRenderBlock(chunk.getBlocks(), x, y, z)) {
-            float blockPositionX = (float) x * RenderConstants.BLOCK_LENGTH + chunkOffsetX;
-            float blockPositionY = (float) y * RenderConstants.BLOCK_LENGTH + chunkOffsetY;
-            float blockPositionZ = (float) z * RenderConstants.BLOCK_LENGTH;
-            int offset = RenderConstants.BLOCK_LENGTH / 2;
+    private void renderBlock(Vector3i index) {
+        if (BlockEnvironmentUtil.shouldRenderBlock(chunk.getBlocks(), index)) {
+            Vector3f blockPosition = BlockPositionUtil.getBlockPosition(chunk, index);
+            int offset = BlockPositionUtil.getBlockOffset();
 
-            BlockCalculator blockCalculator = new BlockCalculator(blockPositionX, blockPositionY, blockPositionZ, offset, vertexPositionData, vertexTextureData);
-            blockCalculator.renderBlock(chunk.getBlocks(), x, y, z);
+            BlockCalculator blockCalculator = new BlockCalculator(blockPosition, offset, vertexPositionData, vertexTextureData);
+            blockCalculator.renderBlock(chunk.getBlocks(), index);
         }
     }
 

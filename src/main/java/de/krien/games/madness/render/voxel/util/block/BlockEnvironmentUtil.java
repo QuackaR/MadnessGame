@@ -2,45 +2,46 @@ package de.krien.games.madness.render.voxel.util.block;
 
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Block;
+import de.krien.games.madness.util.Vector3i;
+import org.lwjgl.util.vector.Vector3f;
 
 public class BlockEnvironmentUtil {
-
-    public static boolean shouldRenderBlock(Block[][][] blocks, int x, int y, int z) {
-        Block block = blocks[x][y][z];
-        return block != null && block.isActive() && blockIsNotSurrounded(blocks, x, y, z);
+    public static boolean shouldRenderBlock(Block[][][] blocks, Vector3i index) {
+        Block block = blocks[index.getX()][index.getY()][index.getZ()];
+        return block != null && block.isActive() && blockIsNotSurrounded(blocks, index);
     }
 
-    public static boolean isBlockAboveActive(Block[][][] blocks, int x, int y, int z) {
-        return z == (RenderConstants.CHUNK_SIZE - 1) || blocks[x][y][z + 1] == null || !blocks[x][y][z + 1].isActive();
+    public static boolean isBlockAboveActive(Block[][][] blocks, Vector3i index) {
+        return index.getZ() == (RenderConstants.CHUNK_SIZE - 1) || blocks[index.getX()][index.getY()][index.getZ() + 1] == null || !blocks[index.getX()][index.getY()][index.getZ() + 1].isActive();
     }
 
-    public static boolean isBlockBeneathActive(Block[][][] blocks, int x, int y, int z) {
-        return z == 0 || blocks[x][y][z - 1] == null || !blocks[x][y][z - 1].isActive();
+    public static boolean isBlockBeneathActive(Block[][][] blocks, Vector3i index) {
+        return index.getZ() == 0 || blocks[index.getX()][index.getY()][index.getZ() - 1] == null || !blocks[index.getX()][index.getY()][index.getZ() - 1].isActive();
     }
 
-    public static boolean isBlockBeforeActive(Block[][][] blocks, int x, int y, int z) {
-        return y == 0 || blocks[x][y - 1][z] == null || !blocks[x][y - 1][z].isActive();
+    public static boolean isBlockBeforeActive(Block[][][] blocks, Vector3i index) {
+        return index.getY() == 0 || blocks[index.getX()][index.getY() - 1][index.getZ()] == null || !blocks[index.getX()][index.getY() - 1][index.getZ()].isActive();
     }
 
-    public static boolean isBlockBehindActive(Block[][][] blocks, int x, int y, int z) {
-        return y == (RenderConstants.CHUNK_SIZE - 1) || blocks[x][y + 1][z] == null || !blocks[x][y + 1][z].isActive();
+    public static boolean isBlockBehindActive(Block[][][] blocks, Vector3i index) {
+        return index.getY() == (RenderConstants.CHUNK_SIZE - 1) || blocks[index.getX()][index.getY() + 1][index.getZ()] == null || !blocks[index.getX()][index.getY() + 1][index.getZ()].isActive();
     }
 
-    public static boolean isBlockToTheLeftActive(Block[][][] blocks, int x, int y, int z) {
-        return x == 0 || blocks[x - 1][y][z] == null || !blocks[x - 1][y][z].isActive();
+    public static boolean isBlockToTheLeftActive(Block[][][] blocks, Vector3i index) {
+        return index.getX() == 0 || blocks[index.getX() - 1][index.getY()][index.getZ()] == null || !blocks[index.getX() - 1][index.getY()][index.getZ()].isActive();
     }
 
-    public static boolean isBlockToTheRightActive(Block[][][] blocks, int x, int y, int z) {
-        return x == (RenderConstants.CHUNK_SIZE - 1) || blocks[x + 1][y][z] == null || !blocks[x + 1][y][z].isActive();
+    public static boolean isBlockToTheRightActive(Block[][][] blocks, Vector3i index) {
+        return index.getX() == (RenderConstants.CHUNK_SIZE - 1) || blocks[index.getX() + 1][index.getY()][index.getZ()] == null || !blocks[index.getX() + 1][index.getY()][index.getZ()].isActive();
     }
 
-    private static boolean blockIsNotSurrounded(Block[][][] blocks, int x, int y, int z) {
-        boolean allSurroundingBlocksActive = isBlockAboveActive(blocks, x, y, z)
-                && isBlockBeneathActive(blocks, x, y, z)
-                && isBlockBeforeActive(blocks, x, y, z)
-                && isBlockBehindActive(blocks, x, y, z)
-                && isBlockToTheLeftActive(blocks, x, y, z)
-                && isBlockToTheRightActive(blocks, x, y, z);
+    private static boolean blockIsNotSurrounded(Block[][][] blocks, Vector3i index) {
+        boolean allSurroundingBlocksActive = isBlockAboveActive(blocks, index)
+                && isBlockBeneathActive(blocks, index)
+                && isBlockBeforeActive(blocks, index)
+                && isBlockBehindActive(blocks, index)
+                && isBlockToTheLeftActive(blocks, index)
+                && isBlockToTheRightActive(blocks, index);
         if (allSurroundingBlocksActive) {
             return false;
         }

@@ -4,6 +4,7 @@ import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.util.chunk.ChunkPositionUtil;
+import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -65,9 +66,9 @@ public class BlockPositionUtil {
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
-                    Vector3f blockIndex = new Vector3f(x, y, z);
+                    Vector3i blockIndex = new Vector3i(x, y, z);
                     Block block = chunk.getBlocks()[x][y][z];
-                    if (block != null && block.isActive() && BlockEnvironmentUtil.shouldRenderBlock(chunk.getBlocks(),x,y,z) && positionIsInBlock(chunk, block, blockIndex, position)) {
+                    if (block != null && block.isActive() && BlockEnvironmentUtil.shouldRenderBlock(chunk.getBlocks(), blockIndex) && positionIsInBlock(chunk, block, blockIndex, position)) {
                         calculatedBlock = block;
                         calculatedChunk = chunk;
                         calculatedBlockPosition = getBlockPosition(chunk, blockIndex);
@@ -85,7 +86,7 @@ public class BlockPositionUtil {
         calculatedBlockIndex = null;
     }
 
-    private static boolean positionIsInBlock(Chunk chunk, Block block, Vector3f blockIndex, Vector3f position) {
+    private static boolean positionIsInBlock(Chunk chunk, Block block, Vector3i blockIndex, Vector3f position) {
         Vector3f minCorner = getMinCorner(position, chunk, block, blockIndex);
         Vector3f maxCorner = getMaxCorner(position, chunk, block, blockIndex);
 
@@ -111,20 +112,20 @@ public class BlockPositionUtil {
         return false;
     }
 
-    private static Vector3f getMinCorner(Vector3f position, Chunk chunk, Block block, Vector3f blockIndex) {
+    private static Vector3f getMinCorner(Vector3f position, Chunk chunk, Block block, Vector3i blockIndex) {
         Vector3f blockPosition = getBlockPosition(chunk, blockIndex);
         int blockOffset = getBlockOffset();
         return new Vector3f(blockPosition.getX() - blockOffset, blockPosition.getY() - blockOffset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH);
     }
 
 
-    private static Vector3f getMaxCorner(Vector3f position, Chunk chunk, Block block, Vector3f blockIndex) {
+    private static Vector3f getMaxCorner(Vector3f position, Chunk chunk, Block block, Vector3i blockIndex) {
         Vector3f blockPosition = getBlockPosition(chunk, blockIndex);
         int blockOffset = getBlockOffset();
         return new Vector3f(blockPosition.getX() + blockOffset, blockPosition.getY() + blockOffset, blockPosition.getZ());
     }
 
-    public static Vector3f getBlockPosition(Chunk chunk, Vector3f blockIndex) {
+    public static Vector3f getBlockPosition(Chunk chunk, Vector3i blockIndex) {
         Vector2f chunkOffset = ChunkPositionUtil.getChunkOffset(chunk);
         float blockPositionX = (float) blockIndex.getX() * RenderConstants.BLOCK_LENGTH + chunkOffset.getX();
         float blockPositionY = (float) blockIndex.getY() * RenderConstants.BLOCK_LENGTH + chunkOffset.getY();

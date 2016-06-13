@@ -3,119 +3,103 @@ package de.krien.games.madness.render.voxel.util.block;
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.BlockType;
+import de.krien.games.madness.util.Vector3i;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.nio.FloatBuffer;
 
 public class BlockCalculator {
 
-    private float blockPositionX;
-    private float blockPositionY;
-    private float blockPositionZ;
+    private Vector3f blockPosition;
     private int offset;
 
     private FloatBuffer vertexPositionData;
     private FloatBuffer vertexTextureData;
 
-    public BlockCalculator(float blockPositionX, float blockPositionY, float blockPositionZ, int offset, FloatBuffer vertexPositionData, FloatBuffer vertexTextureData) {
-        this.blockPositionX = blockPositionX;
-        this.blockPositionY = blockPositionY;
-        this.blockPositionZ = blockPositionZ;
+    public BlockCalculator(Vector3f blockPosition, int offset, FloatBuffer vertexPositionData, FloatBuffer vertexTextureData) {
+        this.blockPosition = blockPosition;
         this.offset = offset;
         this.vertexPositionData = vertexPositionData;
         this.vertexTextureData = vertexTextureData;
     }
 
-    public void renderBlock() {
-        Block[][][] blocks = new Block[3][3][3];
-        int x = 1;
-        int y = 1;
-        int z = 1;
-        blocks[1][1][1] = new Block(BlockType.WOOD);
-        renderTopSurface(blocks, x, y, z);
-        renderBottomSurface(blocks, x, y, z);
-        renderFrontSurface(blocks, x, y, z);
-        renderBackSurface(blocks, x, y, z);
-        renderLeftSurface(blocks, x, y, z);
-        renderRightSurface(blocks, x, y, z);
+    public void renderBlock(Block[][][] blocks, Vector3i index) {
+        renderTopSurface(blocks, index);
+        renderBottomSurface(blocks, index);
+        renderFrontSurface(blocks, index);
+        renderBackSurface(blocks, index);
+        renderLeftSurface(blocks, index);
+        renderRightSurface(blocks, index);
     }
 
-    public void renderBlock(Block[][][] blocks, int x, int y, int z) {
-        renderTopSurface(blocks, x, y, z);
-        renderBottomSurface(blocks, x, y, z);
-        renderFrontSurface(blocks, x, y, z);
-        renderBackSurface(blocks, x, y, z);
-        renderLeftSurface(blocks, x, y, z);
-        renderRightSurface(blocks, x, y, z);
-    }
-
-    private void renderTopSurface(Block[][][] blocks, int x, int y, int z) {
-        if (BlockEnvironmentUtil.isBlockAboveActive(blocks, x, y, z)) {
+    private void renderTopSurface(Block[][][] blocks, Vector3i index) {
+        if (BlockEnvironmentUtil.isBlockAboveActive(blocks, index)) {
             vertexPositionData.put(new float[]{
-                    blockPositionX + offset, blockPositionY - offset, blockPositionZ,
-                    blockPositionX - offset, blockPositionY - offset, blockPositionZ,
-                    blockPositionX - offset, blockPositionY + offset, blockPositionZ,
-                    blockPositionX + offset, blockPositionY + offset, blockPositionZ});
-            if(blocks[x][y][z].isSelected()) {
+                    blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ(),
+                    blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ(),
+                    blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ(),
+                    blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ()});
+            if(blocks[index.getX()][index.getY()][index.getZ()].isSelected()) {
                 vertexTextureData.put(generateSurfaceTextureCoordinates(1, BlockType.SAND.getBlockID()));
             } else {
-                vertexTextureData.put(generateSurfaceTextureCoordinates(1, blocks[x][y][z].getBlockType().getBlockID()));
+                vertexTextureData.put(generateSurfaceTextureCoordinates(1, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
             }
 
         }
     }
 
-    private void renderBottomSurface(Block[][][] blocks, int x, int y, int z) {
-        if (BlockEnvironmentUtil.isBlockBeneathActive(blocks, x, y, z)) {
+    private void renderBottomSurface(Block[][][] blocks, Vector3i index) {
+        if (BlockEnvironmentUtil.isBlockBeneathActive(blocks, index)) {
             vertexPositionData.put(new float[]{
-                    blockPositionX + offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX - offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX - offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX + offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH});
-            vertexTextureData.put(generateSurfaceTextureCoordinates(6, blocks[x][y][z].getBlockType().getBlockID()));
+                    blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH});
+            vertexTextureData.put(generateSurfaceTextureCoordinates(6, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
         }
     }
 
-    private void renderFrontSurface(Block[][][] blocks, int x, int y, int z) {
-        if (BlockEnvironmentUtil.isBlockBeforeActive(blocks, x, y, z)) {
+    private void renderFrontSurface(Block[][][] blocks, Vector3i index) {
+        if (BlockEnvironmentUtil.isBlockBeforeActive(blocks, index)) {
             vertexPositionData.put(new float[]{
-                    blockPositionX + offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX - offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX - offset, blockPositionY - offset, blockPositionZ,
-                    blockPositionX + offset, blockPositionY - offset, blockPositionZ});
-            vertexTextureData.put(generateSurfaceTextureCoordinates(2, blocks[x][y][z].getBlockType().getBlockID()));
+                    blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ(),
+                    blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ()});
+            vertexTextureData.put(generateSurfaceTextureCoordinates(2, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
         }
     }
 
-    private void renderBackSurface(Block[][][] blocks, int x, int y, int z) {
-        if (BlockEnvironmentUtil.isBlockBehindActive(blocks, x, y, z)) {
+    private void renderBackSurface(Block[][][] blocks, Vector3i index) {
+        if (BlockEnvironmentUtil.isBlockBehindActive(blocks, index)) {
             vertexPositionData.put(new float[]{
-                    blockPositionX + offset, blockPositionY + offset, blockPositionZ,
-                    blockPositionX - offset, blockPositionY + offset, blockPositionZ,
-                    blockPositionX - offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX + offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH});
-            vertexTextureData.put(generateSurfaceTextureCoordinates(4, blocks[x][y][z].getBlockType().getBlockID()));
+                    blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ(),
+                    blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ(),
+                    blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH});
+            vertexTextureData.put(generateSurfaceTextureCoordinates(4, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
         }
     }
 
-    private void renderLeftSurface(Block[][][] blocks, int x, int y, int z) {
-        if (BlockEnvironmentUtil.isBlockToTheLeftActive(blocks, x, y, z)) {
+    private void renderLeftSurface(Block[][][] blocks, Vector3i index) {
+        if (BlockEnvironmentUtil.isBlockToTheLeftActive(blocks, index)) {
             vertexPositionData.put(new float[]{
-                    blockPositionX - offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX - offset, blockPositionY + offset, blockPositionZ,
-                    blockPositionX - offset, blockPositionY - offset, blockPositionZ,
-                    blockPositionX - offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH});
-            vertexTextureData.put(generateSurfaceTextureCoordinates(3, blocks[x][y][z].getBlockType().getBlockID()));
+                    blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ(),
+                    blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ(),
+                    blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH});
+            vertexTextureData.put(generateSurfaceTextureCoordinates(3, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
         }
     }
 
-    private void renderRightSurface(Block[][][] blocks, int x, int y, int z) {
-        if (BlockEnvironmentUtil.isBlockToTheRightActive(blocks, x, y, z)) {
+    private void renderRightSurface(Block[][][] blocks, Vector3i index) {
+        if (BlockEnvironmentUtil.isBlockToTheRightActive(blocks, index)) {
             vertexPositionData.put(new float[]{
-                    blockPositionX + offset, blockPositionY + offset, blockPositionZ,
-                    blockPositionX + offset, blockPositionY + offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX + offset, blockPositionY - offset, blockPositionZ - RenderConstants.BLOCK_LENGTH,
-                    blockPositionX + offset, blockPositionY - offset, blockPositionZ});
-            vertexTextureData.put(generateSurfaceTextureCoordinates(5, blocks[x][y][z].getBlockType().getBlockID()));
+                    blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ(),
+                    blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
+                    blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ()});
+            vertexTextureData.put(generateSurfaceTextureCoordinates(5, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
         }
     }
 
