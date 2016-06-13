@@ -13,7 +13,7 @@ public class BlockPositionUtil {
     private Block calculatedBlock;
     private Chunk calculatedChunk;
     private Vector3f calculatedBlockPosition;
-    private Vector3f calculatedBlockIndex;
+    private Vector3i calculatedBlockIndex;
 
     /*public static Block getBlockOfPoint(Chunk chunk, Vector3f position) {
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
@@ -72,7 +72,7 @@ public class BlockPositionUtil {
                         calculatedBlock = block;
                         calculatedChunk = chunk;
                         calculatedBlockPosition = getBlockPosition(chunk, blockIndex);
-                        calculatedBlockIndex = new Vector3f(x, y, z);
+                        calculatedBlockIndex = new Vector3i(x, y, z);
                     }
                 }
             }
@@ -150,7 +150,7 @@ public class BlockPositionUtil {
         return calculatedBlockPosition;
     }
 
-    public Vector3f getCalculatedBlockIndex() {
+    public Vector3i getCalculatedBlockIndex() {
         return calculatedBlockIndex;
     }
 }

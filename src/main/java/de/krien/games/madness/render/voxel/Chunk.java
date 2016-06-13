@@ -2,6 +2,7 @@ package de.krien.games.madness.render.voxel;
 
 import de.krien.games.madness.render.RenderConstants;
 import de.krien.games.madness.render.voxel.util.chunk.ChunkCalculator;
+import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.util.vector.Vector2f;
 
 public class Chunk {
@@ -13,14 +14,20 @@ public class Chunk {
 
     private Vector2f position;
 
+    ChunkCalculator chunkCalculator;
+
     public Chunk(Vector2f position) {
         blocks = new Block[RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE][RenderConstants.CHUNK_SIZE];
         this.position = position;
+        chunkCalculator = new ChunkCalculator(this);
     }
 
     public void render() {
-        ChunkCalculator chunkCalculator = new ChunkCalculator(this);
         chunkCalculator.render();
+    }
+
+    public void rerenderBlock(Vector3i index) {
+        chunkCalculator.rerenderBlock(index);
     }
 
     public Block[][][] getBlocks() {

@@ -5,12 +5,13 @@ import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.util.block.BlockPositionUtil;
 import de.krien.games.madness.render.voxel.util.chunk.ChunkPositionUtil;
+import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.util.vector.Vector3f;
 
 public class RayPick {
 
     private Vector3f rayPickedBlockPosition;
-    private Vector3f rayPickedBlockIndex;
+    private Vector3i rayPickedBlockIndex;
     private Block rayPickedBlock;
     private Chunk rayPickedChunk;
 
@@ -50,7 +51,7 @@ public class RayPick {
         return rayPickedBlockPosition;
     }
 
-    public Vector3f getRayPickedBlockIndex() {
+    public Vector3i getRayPickedBlockIndex() {
         return rayPickedBlockIndex;
     }
 

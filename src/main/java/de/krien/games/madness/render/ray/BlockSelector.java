@@ -3,6 +3,7 @@ package de.krien.games.madness.render.ray;
 import de.krien.games.madness.render.voxel.Block;
 import de.krien.games.madness.render.voxel.Chunk;
 import de.krien.games.madness.render.voxel.World;
+import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -23,6 +24,7 @@ public class BlockSelector {
 
     public void selectBlock() {
         setBlockInactive();
+        rerender();
         rayPick.update(position, rotation);
         setBlockActive();
         rerender();
@@ -30,7 +32,7 @@ public class BlockSelector {
 
     private void rerender() {
         if(rayPick.getRayPickedChunk() != null) {
-            rayPick.getRayPickedChunk().render();
+            rayPick.getRayPickedChunk().rerenderBlock(rayPick.getRayPickedBlockIndex());
         }
     }
 
@@ -58,7 +60,7 @@ public class BlockSelector {
         return rayPick.getRayPickedBlockPosition();
     }
 
-    public Vector3f getIndex() {
+    public Vector3i getIndex() {
         return rayPick.getRayPickedBlockIndex();
     }
 
