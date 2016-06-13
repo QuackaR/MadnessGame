@@ -9,7 +9,12 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class BlockPositionUtil {
 
-    public static Block getBlockOfPoint(Chunk chunk, Vector3f position) {
+    private Block calculatedBlock;
+    private Chunk calculatedChunk;
+    private Vector3f calculatedBlockPosition;
+    private Vector3f calculatedBlockIndex;
+
+    /*public static Block getBlockOfPoint(Chunk chunk, Vector3f position) {
         for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
                 for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
@@ -53,6 +58,31 @@ public class BlockPositionUtil {
             }
         }
         return null;
+    } */
+
+    public void calculate(Chunk chunk, Vector3f position) {
+        reset();
+        for (int x = 0; x < RenderConstants.CHUNK_SIZE; x++) {
+            for (int y = 0; y < RenderConstants.CHUNK_SIZE; y++) {
+                for (int z = 0; z < RenderConstants.CHUNK_SIZE; z++) {
+                    Vector3f blockIndex = new Vector3f(x, y, z);
+                    Block block = chunk.getBlocks()[x][y][z];
+                    if (block != null && block.isActive() && BlockEnvironmentUtil.shouldRenderBlock(chunk.getBlocks(),x,y,z) && positionIsInBlock(chunk, block, blockIndex, position)) {
+                        calculatedBlock = block;
+                        calculatedChunk = chunk;
+                        calculatedBlockPosition = getBlockPosition(chunk, blockIndex);
+                        calculatedBlockIndex = new Vector3f(x, y, z);
+                    }
+                }
+            }
+        }
+    }
+
+    private void reset() {
+        calculatedBlock = null;
+        calculatedChunk = null;
+        calculatedBlockPosition = null;
+        calculatedBlockIndex = null;
     }
 
     private static boolean positionIsInBlock(Chunk chunk, Block block, Vector3f blockIndex, Vector3f position) {
@@ -107,4 +137,19 @@ public class BlockPositionUtil {
         return blockOffset;
     }
 
+    public Block getCalculatedBlock() {
+        return calculatedBlock;
+    }
+
+    public Chunk getCalculatedChunk() {
+        return calculatedChunk;
+    }
+
+    public Vector3f getCalculatedBlockPosition() {
+        return calculatedBlockPosition;
+    }
+
+    public Vector3f getCalculatedBlockIndex() {
+        return calculatedBlockIndex;
+    }
 }

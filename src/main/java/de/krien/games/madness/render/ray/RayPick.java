@@ -15,6 +15,12 @@ public class RayPick {
     private Block rayPickedBlock;
     private Chunk rayPickedChunk;
 
+    BlockPositionUtil blockPositionUtil;
+
+    public RayPick() {
+        blockPositionUtil = new BlockPositionUtil();
+    }
+
     public void update(Vector3f position, Vector3f rotation) {
         Vector3f originPosition = new Vector3f(-1 * position.getX(), -1 * position.getY(), -1 * position.getZ());
         Vector3f originRotation = new Vector3f(rotation.getX(), rotation.getY(), rotation.getZ());
@@ -27,11 +33,12 @@ public class RayPick {
             Vector3f sightPoint = ray.getPoint(i);
             Chunk chunk = ChunkPositionUtil.getChunkOfPoint(sightPoint);
             if (chunk != null) {
-                rayPickedChunk = chunk;
-                rayPickedBlockPosition = BlockPositionUtil.getBlockPositionOfPoint(chunk, sightPoint);
-                rayPickedBlock = BlockPositionUtil.getBlockOfPoint(chunk, sightPoint);
-                rayPickedBlockIndex = BlockPositionUtil.getBlockIndexOfPoint(chunk, sightPoint);
-                if (rayPickedBlockPosition != null) {
+                blockPositionUtil.calculate(chunk, sightPoint);
+                if (blockPositionUtil.getCalculatedBlock() != null) {
+                    rayPickedBlock = blockPositionUtil.getCalculatedBlock();
+                    rayPickedChunk = blockPositionUtil.getCalculatedChunk();
+                    rayPickedBlockPosition = blockPositionUtil.getCalculatedBlockPosition();
+                    rayPickedBlockIndex = blockPositionUtil.getCalculatedBlockIndex();
                     return;
                 } else {
                     continue;
