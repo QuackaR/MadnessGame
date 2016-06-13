@@ -60,6 +60,7 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
+        TextureUtil.BORDERLESS.bind();
     }
 
     public void draw(World world) {
@@ -69,7 +70,7 @@ public class Renderer {
             if (CameraSight.INSTANCE.shouldDrawCameraSight()) {
                 CameraSight.INSTANCE.drawCameraSight();
             }
-            //RayPick.INSTANCE.updateSelection();
+            //RayPick.BORDERLESS.updateSelection();
             updateCamera(world);
             fpsHudRenderer.drawFps();
 
@@ -93,8 +94,6 @@ public class Renderer {
     }
 
     private void drawMatrix(World world) {
-
-        TextureUtil.INSTANCE.bind();
         Chunk[][] chunks = world.getChunks();
         for (int x = 0; x < chunks.length; x++) {
             for (int y = 0; y < chunks[0].length; y++) {

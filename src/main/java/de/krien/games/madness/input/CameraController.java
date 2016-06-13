@@ -5,6 +5,7 @@ import de.krien.games.madness.render.debug.CameraSight;
 import de.krien.games.madness.render.ray.BlockSelector;
 import de.krien.games.madness.render.ray.RayPick;
 import de.krien.games.madness.render.voxel.World;
+import de.krien.games.madness.render.voxel.util.texture.TextureUtil;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -62,8 +63,11 @@ public class CameraController {
             System.out.println("###############################");
         }
 
-        if(Keyboard.isKeyDown(Keyboard.KEY_F)) {
-            CameraSight.INSTANCE.toggleActivity();
+        if(Keyboard.isKeyDown(Keyboard.KEY_1)) {
+            TextureUtil.BORDERLESS.bind();
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_2)) {
+            TextureUtil.BORDER.bind();
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_G)) {

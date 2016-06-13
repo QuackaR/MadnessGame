@@ -39,7 +39,6 @@ public class BlockCalculator {
             } else {
                 blocks[index.getX()][index.getY()][index.getZ()].setTopSurfaceTexture(generateSurfaceTextureCoordinates(1, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
             }
-
         }
     }
 
@@ -50,7 +49,11 @@ public class BlockCalculator {
                     blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
                     blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
                     blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH});
-            blocks[index.getX()][index.getY()][index.getZ()].setBottomSurfaceTexture(generateSurfaceTextureCoordinates(6, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            if(blocks[index.getX()][index.getY()][index.getZ()].isSelected()) {
+                blocks[index.getX()][index.getY()][index.getZ()].setBottomSurfaceTexture(generateSurfaceTextureCoordinates(6, BlockType.SAND.getBlockID()));
+            } else {
+                blocks[index.getX()][index.getY()][index.getZ()].setBottomSurfaceTexture(generateSurfaceTextureCoordinates(6, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            }
         }
     }
 
@@ -61,7 +64,11 @@ public class BlockCalculator {
                     blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
                     blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ(),
                     blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ()});
-            blocks[index.getX()][index.getY()][index.getZ()].setFrontSurfaceTexture(generateSurfaceTextureCoordinates(2, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            if(blocks[index.getX()][index.getY()][index.getZ()].isSelected()) {
+                blocks[index.getX()][index.getY()][index.getZ()].setFrontSurfaceTexture(generateSurfaceTextureCoordinates(2, BlockType.SAND.getBlockID()));
+            } else {
+                blocks[index.getX()][index.getY()][index.getZ()].setFrontSurfaceTexture(generateSurfaceTextureCoordinates(2, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            }
         }
     }
 
@@ -72,8 +79,12 @@ public class BlockCalculator {
                     blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ(),
                     blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
                     blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH});
-            blocks[index.getX()][index.getY()][index.getZ()].setBackSurfaceTexture(generateSurfaceTextureCoordinates(4, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
-        }
+            if(blocks[index.getX()][index.getY()][index.getZ()].isSelected()) {
+                blocks[index.getX()][index.getY()][index.getZ()].setBackSurfaceTexture(generateSurfaceTextureCoordinates(4, BlockType.SAND.getBlockID()));
+            } else {
+                blocks[index.getX()][index.getY()][index.getZ()].setBackSurfaceTexture(generateSurfaceTextureCoordinates(4, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            }
+             }
     }
 
     private void renderLeftSurface(Block[][][] blocks, Vector3i index) {
@@ -83,7 +94,11 @@ public class BlockCalculator {
                     blockPosition.getX() - offset, blockPosition.getY() + offset, blockPosition.getZ(),
                     blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ(),
                     blockPosition.getX() - offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH});
-            blocks[index.getX()][index.getY()][index.getZ()].setLeftSurfaceTexture(generateSurfaceTextureCoordinates(3, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            if(blocks[index.getX()][index.getY()][index.getZ()].isSelected()) {
+                blocks[index.getX()][index.getY()][index.getZ()].setLeftSurfaceTexture(generateSurfaceTextureCoordinates(3, BlockType.SAND.getBlockID()));
+            } else {
+                blocks[index.getX()][index.getY()][index.getZ()].setLeftSurfaceTexture(generateSurfaceTextureCoordinates(3, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            }
         }
     }
 
@@ -94,7 +109,11 @@ public class BlockCalculator {
                     blockPosition.getX() + offset, blockPosition.getY() + offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
                     blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ() - RenderConstants.BLOCK_LENGTH,
                     blockPosition.getX() + offset, blockPosition.getY() - offset, blockPosition.getZ()});
-            blocks[index.getX()][index.getY()][index.getZ()].setRightSurfaceTexture(generateSurfaceTextureCoordinates(5, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            if (blocks[index.getX()][index.getY()][index.getZ()].isSelected()) {
+                blocks[index.getX()][index.getY()][index.getZ()].setRightSurfaceTexture(generateSurfaceTextureCoordinates(5, BlockType.SAND.getBlockID()));
+            } else {
+                blocks[index.getX()][index.getY()][index.getZ()].setRightSurfaceTexture(generateSurfaceTextureCoordinates(5, blocks[index.getX()][index.getY()][index.getZ()].getBlockType().getBlockID()));
+            }
         }
     }
 
