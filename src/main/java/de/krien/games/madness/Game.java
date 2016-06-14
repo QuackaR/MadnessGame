@@ -2,8 +2,8 @@ package de.krien.games.madness;
 
 import de.krien.games.madness.game.GameState;
 import de.krien.games.madness.input.CameraController;
-import de.krien.games.madness.render.Renderer;
-import de.krien.games.madness.render.voxel.World;
+import de.krien.games.madness.view.render.Renderer;
+import de.krien.games.madness.view.voxel.World;
 import org.lwjgl.opengl.Display;
 
 public class Game {

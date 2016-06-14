@@ -1,10 +1,10 @@
 package de.krien.games.madness.input;
 
-import de.krien.games.madness.render.camera.DynamicCameraUtil;
-import de.krien.games.madness.render.ray.BlockSelector;
-import de.krien.games.madness.render.voxel.World;
-import de.krien.games.madness.render.voxel.util.texture.Texture;
-import de.krien.games.madness.render.voxel.util.texture.TextureManager;
+import de.krien.games.madness.view.camera.DynamicCameraUtil;
+import de.krien.games.madness.view.ray.BlockSelector;
+import de.krien.games.madness.view.voxel.World;
+import de.krien.games.madness.view.voxel.util.texture.Texture;
+import de.krien.games.madness.view.voxel.util.texture.TextureManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
