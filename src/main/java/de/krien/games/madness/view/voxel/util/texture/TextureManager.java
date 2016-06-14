@@ -1,8 +1,7 @@
 package de.krien.games.madness.view.voxel.util.texture;
 
-/**
- * Created by akrien on 14.06.2016.
- */
+import org.lwjgl.opengl.GL11;
+
 public enum TextureManager {
 
     INSTANCE;
@@ -18,6 +17,10 @@ public enum TextureManager {
     public void setActiveTexture(Texture texture) {
         activeTexture = texture.load();
         bindActiveTexture();
+    }
+
+    public void unbindActiveTexture() {
+        org.newdawn.slick.opengl.TextureImpl.bindNone();
     }
 
 }

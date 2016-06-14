@@ -3,6 +3,7 @@ package de.krien.games.madness.view.render;
 import de.krien.games.madness.view.voxel.World;
 import de.krien.games.madness.view.voxel.util.texture.Texture;
 import de.krien.games.madness.view.voxel.util.texture.TextureManager;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -19,7 +20,6 @@ public class Renderer {
 
         renderer2D = new Renderer2D();
         renderer3D = new Renderer3D();
-
     }
 
     private void createWindow() {
@@ -37,6 +37,7 @@ public class Renderer {
             Display.setDisplayMode(displayMode);
             Display.setTitle("Madness - The Game");
             Display.create();
+            //Mouse.setGrabbed(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

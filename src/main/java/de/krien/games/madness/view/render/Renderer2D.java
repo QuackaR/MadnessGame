@@ -2,10 +2,12 @@ package de.krien.games.madness.view.render;
 
 import de.krien.games.madness.view.hud.stats.FpsUtil;
 import de.krien.games.madness.view.voxel.World;
+import de.krien.games.madness.view.voxel.util.texture.TextureManager;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.Texture;
 
 import java.awt.Font;
 
@@ -23,20 +25,40 @@ public class Renderer2D {
     }
 
     public void draw(World world) {
-        fpsUtil.updateFps();
         begin2d();
-        /*GL11.glColor4f(0.7F, 0.7F, 0.7F, 0.5F);
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glVertex2f(0,0);
-        GL11.glVertex2f(200,0);
-        GL11.glVertex2f(200,100);
-        GL11.glVertex2f(0,100);
-        GL11.glEnd(); */
-        typeFont.drawString(5, 5, "FPS: " + fpsUtil.getFramesPerSecond(), Color.black);
+        drawCrosshair();
+        drawFps();
         end2d();
     }
 
+    private void drawFps() {
+        fpsUtil.updateFps();
+        typeFont.drawString(5, 5, "FPS: " + fpsUtil.getFramesPerSecond(), Color.black);
+    }
+
+    private void drawCrosshair() {
+        int midX = Display.getDisplayMode().getWidth() / 2;
+        int midY = Display.getDisplayMode().getHeight() / 2;
+
+        int crosshairSize = 25;
+
+        GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex2f(midX,midY - crosshairSize);
+        GL11.glVertex2f(midX+2,midY - crosshairSize);
+        GL11.glVertex2f(midX+2,midY+crosshairSize);
+        GL11.glVertex2f(midX,midY+crosshairSize);
+        GL11.glEnd();
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex2f(midX - crosshairSize, midY);
+        GL11.glVertex2f(midX - crosshairSize, midY +2);
+        GL11.glVertex2f(midX + crosshairSize, midY+2);
+        GL11.glVertex2f(midX + crosshairSize, midY);
+        GL11.glEnd();
+    }
+
     private void begin2d() {
+        TextureManager.INSTANCE.unbindActiveTexture();
         // Tiefentest deaktivieren
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         // Blending aktivieren
