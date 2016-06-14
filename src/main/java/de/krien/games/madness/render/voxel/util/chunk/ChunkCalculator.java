@@ -37,7 +37,7 @@ public class ChunkCalculator {
 
     public void rerenderBlock(Vector3i index) {
         initBuffers(chunk);
-        initVertexBuffer();
+        resetVertexBuffer();
         renderBlock(index);
         fillVertexBuffer();
         flipVertexBuffer();
@@ -72,6 +72,11 @@ public class ChunkCalculator {
     private void initVertexBuffer() {
         vertexPositionData = BufferUtils.createFloatBuffer((RenderConstants.CHUNK_BLOCK_COUNT) * 6 * 12);
         vertexTextureData = BufferUtils.createFloatBuffer((RenderConstants.CHUNK_BLOCK_COUNT) * 6 * 12);
+    }
+
+    private void resetVertexBuffer() {
+        vertexPositionData.clear();
+        vertexTextureData.clear();
     }
 
     private void fillVertexBuffer() {
