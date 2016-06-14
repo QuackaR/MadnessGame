@@ -1,11 +1,10 @@
 package de.krien.games.madness.input;
 
 import de.krien.games.madness.render.camera.DynamicCameraUtil;
-import de.krien.games.madness.render.debug.CameraSight;
 import de.krien.games.madness.render.ray.BlockSelector;
-import de.krien.games.madness.render.ray.RayPick;
 import de.krien.games.madness.render.voxel.World;
-import de.krien.games.madness.render.voxel.util.texture.TextureUtil;
+import de.krien.games.madness.render.voxel.util.texture.Texture;
+import de.krien.games.madness.render.voxel.util.texture.TextureManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -64,10 +63,10 @@ public class CameraController {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_1)) {
-            TextureUtil.BORDERLESS.bind();
+            TextureManager.INSTANCE.setActiveTexture(Texture.BORDERLESS);
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_2)) {
-            TextureUtil.BORDER.bind();
+            TextureManager.INSTANCE.setActiveTexture(Texture.BORDER);
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_G)) {

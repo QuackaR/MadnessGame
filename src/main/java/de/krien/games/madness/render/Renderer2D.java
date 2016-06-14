@@ -2,26 +2,39 @@ package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.hud.stats.FpsHudRenderer;
 import de.krien.games.madness.render.voxel.World;
+import de.krien.games.madness.render.voxel.util.texture.Texture;
+import de.krien.games.madness.render.voxel.util.texture.TextureManager;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
+
+import java.awt.Font;
 
 public class Renderer2D {
 
     private FpsHudRenderer fpsHudRenderer;
 
+    private Font font;
+    private TrueTypeFont typeFont;
+
     public Renderer2D() {
         fpsHudRenderer = new FpsHudRenderer();
+        font = new Font("Times New Roman", Font.BOLD, 24);
+        typeFont = new TrueTypeFont(font, false);
     }
 
     public void draw(World world) {
         fpsHudRenderer.drawFps();
         begin2d();
+        Color.green.bind();
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glVertex2f(100,100);
         GL11.glVertex2f(100+200,100);
         GL11.glVertex2f(100+200,100+200);
         GL11.glVertex2f(100,100+200);
         GL11.glEnd();
+        typeFont.drawString(50, 50, "Test", Color.cyan);
         end2d();
     }
 
@@ -60,6 +73,8 @@ public class Renderer2D {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         // Alte in begin2D auf den Matrix-Stack gelegte Matrix wiederherstellen
         GL11.glPopMatrix();
+        Color.white.bind(); //GL11.glColor4f(1f, 1f, 1f, 1f);
+        TextureManager.INSTANCE.bindActiveTexture();
     }
 
 }

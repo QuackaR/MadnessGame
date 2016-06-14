@@ -1,7 +1,8 @@
 package de.krien.games.madness.render;
 
 import de.krien.games.madness.render.voxel.World;
-import de.krien.games.madness.render.voxel.util.texture.TextureUtil;
+import de.krien.games.madness.render.voxel.util.texture.Texture;
+import de.krien.games.madness.render.voxel.util.texture.TextureManager;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -57,7 +58,7 @@ public class Renderer {
         GLU.gluPerspective(45.0f, (float) Display.getDisplayMode().getWidth() / (float) Display.getDisplayMode().getHeight(), 0.1f, RenderConstants.VIEW_DISTANCE);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
-        TextureUtil.BORDERLESS.bind();
+        TextureManager.INSTANCE.setActiveTexture(Texture.BORDERLESS);
     }
 
     public void draw(World world) {
