@@ -1,7 +1,7 @@
 package de.krien.games.madness.view.voxel;
 
-import de.krien.games.madness.view.render.RenderConstants;
 import de.krien.games.madness.view.camera.Camera;
+import de.krien.games.madness.view.render.RenderConstants;
 import de.krien.games.madness.view.voxel.util.chunk.ChunkGenerator;
 import org.lwjgl.util.vector.Vector2f;
 

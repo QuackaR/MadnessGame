@@ -1,12 +1,12 @@
 package de.krien.games.madness.view.voxel.util.chunk;
 
+import de.krien.games.madness.util.Vector3i;
 import de.krien.games.madness.view.render.RenderConstants;
 import de.krien.games.madness.view.voxel.Block;
 import de.krien.games.madness.view.voxel.Chunk;
-import de.krien.games.madness.view.voxel.util.block.BlockEnvironmentUtil;
 import de.krien.games.madness.view.voxel.util.block.BlockCalculator;
+import de.krien.games.madness.view.voxel.util.block.BlockEnvironmentUtil;
 import de.krien.games.madness.view.voxel.util.block.BlockPositionUtil;
-import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.vector.Vector3f;

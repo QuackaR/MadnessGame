@@ -1,8 +1,8 @@
 package de.krien.games.madness.view.voxel.util.block;
 
+import de.krien.games.madness.util.Vector3i;
 import de.krien.games.madness.view.render.RenderConstants;
 import de.krien.games.madness.view.voxel.Block;
-import de.krien.games.madness.util.Vector3i;
 
 public class BlockEnvironmentUtil {
     public static boolean shouldRenderBlock(Block[][][] blocks, Vector3i index) {

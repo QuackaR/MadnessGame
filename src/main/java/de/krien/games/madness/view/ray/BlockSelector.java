@@ -1,9 +1,9 @@
 package de.krien.games.madness.view.ray;
 
+import de.krien.games.madness.util.Vector3i;
 import de.krien.games.madness.view.voxel.Block;
 import de.krien.games.madness.view.voxel.Chunk;
 import de.krien.games.madness.view.voxel.World;
-import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.util.vector.Vector3f;
 
 /**

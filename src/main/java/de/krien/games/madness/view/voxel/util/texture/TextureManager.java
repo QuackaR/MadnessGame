@@ -1,7 +1,5 @@
 package de.krien.games.madness.view.voxel.util.texture;
 
-import org.lwjgl.opengl.GL11;
-
 public enum TextureManager {
 
     INSTANCE;

@@ -1,9 +1,9 @@
 package de.krien.games.madness.view.voxel.util.block;
 
+import de.krien.games.madness.util.Vector3i;
 import de.krien.games.madness.view.render.RenderConstants;
 import de.krien.games.madness.view.voxel.Block;
 import de.krien.games.madness.view.voxel.BlockType;
-import de.krien.games.madness.util.Vector3i;
 import org.lwjgl.util.vector.Vector3f;
 
 public class BlockCalculator {

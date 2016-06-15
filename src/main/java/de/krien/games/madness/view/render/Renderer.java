@@ -3,7 +3,6 @@ package de.krien.games.madness.view.render;
 import de.krien.games.madness.view.voxel.World;
 import de.krien.games.madness.view.voxel.util.texture.Texture;
 import de.krien.games.madness.view.voxel.util.texture.TextureManager;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
