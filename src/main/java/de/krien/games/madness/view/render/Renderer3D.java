@@ -1,20 +1,45 @@
 package de.krien.games.madness.view.render;
 
+import com.momchil_atanasov.data.front.parser.*;
+import de.krien.games.madness.view.mesh.Mesh;
 import de.krien.games.madness.view.voxel.Chunk;
 import de.krien.games.madness.view.voxel.World;
 import de.krien.games.madness.view.voxel.util.texture.TextureManager;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 public class Renderer3D {
 
+    Mesh mesh;
+
+    public Renderer3D() {
+        mesh = new Mesh();
+        mesh.load();
+    }
+
     public void draw(World world) {
+        mesh.render();
         drawWorld(world);
         updateCamera(world);
     }
 
     private void drawWorld(World world) {
+        GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+        GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
+        GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+
         loadWorldTexture();
         Chunk[][] chunks = world.getChunks();
         for (int x = 0; x < chunks.length; x++) {
@@ -43,5 +68,6 @@ public class Renderer3D {
         Color.white.bind(); //GL11.glColor4f(1f, 1f, 1f, 1f);
         TextureManager.INSTANCE.bindActiveTexture();
     }
+
 
 }

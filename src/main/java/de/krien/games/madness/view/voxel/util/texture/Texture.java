@@ -9,7 +9,8 @@ import java.io.IOException;
 public enum Texture {
 
     BORDER("res/VoxelTilesBorder.png"),
-    BORDERLESS("res/VoxelTiles.png");
+    BORDERLESS("res/VoxelTiles.png"),
+    GUN("res/cube.png");
 
     private String path;
 

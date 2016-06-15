@@ -27,7 +27,10 @@
             <artifactId>lwjgl_util</artifactId>
             <version>${lwjgl.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.momchil_atanasov</groupId>
+            <artifactId>com.momchil_atanasov.data.front</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.slick2d</groupId>
             <artifactId>slick2d-core</artifactId>
