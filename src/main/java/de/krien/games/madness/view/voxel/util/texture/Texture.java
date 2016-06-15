@@ -9,8 +9,7 @@ import java.io.IOException;
 public enum Texture {
 
     BORDER("res/VoxelTilesBorder.png"),
-    BORDERLESS("res/VoxelTiles.png"),
-    GUN("res/cube.png");
+    BORDERLESS("res/VoxelTiles.png");
 
     private String path;
 
@@ -19,6 +18,15 @@ public enum Texture {
     }
 
     public org.newdawn.slick.opengl.Texture load() {
+        try {
+            return TextureLoader.getTexture("PNG", new FileInputStream(new File(path)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static org.newdawn.slick.opengl.Texture load(String path) {
         try {
             return TextureLoader.getTexture("PNG", new FileInputStream(new File(path)));
         } catch (IOException e) {

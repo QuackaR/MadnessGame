@@ -13,9 +13,6 @@ import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
-/**
- * Created by ig0re on 15.06.2016.
- */
 public class Mesh {
 
     int verticesID;
@@ -55,7 +52,7 @@ public class Mesh {
     public void load() {
         OBJModel model = readObj();
 
-        texture = de.krien.games.madness.view.voxel.util.texture.Texture.GUN.load();
+        texture = de.krien.games.madness.view.voxel.util.texture.Texture.load("res/untitled.png");
 
         clearData();
         convertData(model);
@@ -135,7 +132,7 @@ public class Mesh {
     private OBJModel readObj() {
         OBJModel model = null;
         try {
-            InputStream in = new FileInputStream("res/cube.obj");
+            InputStream in = new FileInputStream("res/untitled.obj");
             IOBJParser parser = new OBJParser();
             model = parser.parse(in);
         } catch (IOException e) {
