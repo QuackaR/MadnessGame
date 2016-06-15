@@ -25,8 +25,6 @@ public class Renderer2D {
         end2d();
     }
 
-
-
     private void begin2d() {
         TextureManager.INSTANCE.unbindActiveTexture();
         // Tiefentest deaktivieren

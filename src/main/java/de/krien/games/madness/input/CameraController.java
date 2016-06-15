@@ -7,6 +7,7 @@ import de.krien.games.madness.view.voxel.util.texture.Texture;
 import de.krien.games.madness.view.voxel.util.texture.TextureManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 public class CameraController {
 
@@ -67,6 +68,12 @@ public class CameraController {
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_2)) {
             TextureManager.INSTANCE.setActiveTexture(Texture.BORDER);
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_3)) {
+            GL11.glPolygonMode( GL11.GL_FRONT_AND_BACK, GL11.GL_FILL );
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_4)) {
+            GL11.glPolygonMode( GL11.GL_FRONT_AND_BACK, GL11.GL_LINE );
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_G)) {
