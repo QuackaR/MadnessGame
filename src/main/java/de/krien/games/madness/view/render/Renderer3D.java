@@ -1,36 +1,28 @@
 package de.krien.games.madness.view.render;
 
-import com.momchil_atanasov.data.front.parser.*;
 import de.krien.games.madness.view.mesh.Mesh;
 import de.krien.games.madness.view.voxel.Chunk;
 import de.krien.games.madness.view.voxel.World;
 import de.krien.games.madness.view.voxel.util.texture.TextureManager;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.nio.FloatBuffer;
-import java.util.ArrayList;
 
 public class Renderer3D {
 
     Mesh mesh;
 
     public Renderer3D() {
-        mesh = new Mesh();
+        mesh = new Mesh("res/untitled.obj", "res/untitled.png");
         mesh.load();
+        mesh.setPosition(new Vector3f(0.0f, 0.0f, 150.0f));
+        mesh.setRotation(new Vector3f(90.0f, 0.0f, 0.0f));
+        mesh.setScale(0.1f);
     }
 
     public void draw(World world) {
-        mesh.render();
+        mesh.draw();
         drawWorld(world);
         updateCamera(world);
     }

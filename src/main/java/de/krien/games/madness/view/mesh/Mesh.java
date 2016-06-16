@@ -1,69 +1,105 @@
 package de.krien.games.madness.view.mesh;
 
-import com.momchil_atanasov.data.front.parser.*;
-import org.lwjgl.BufferUtils;
+import de.krien.games.madness.util.ObjFileParser;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 
 public class Mesh {
 
-    int verticesID;
-    int normalsID;
-    int textureID;
+    private final float DEFAULT_SCALE = 1;
 
-    ArrayList<Float> verticeList;
-    ArrayList<Float> normalList;
-    ArrayList<Float> textureList;
+    private String objPath;
+    private String texturePath;
 
-    Texture texture;
+    private int verticesID;
+    private int normalsID;
+    private int textureID;
 
+    private Texture texture;
+    private ObjFileParser objFileParser;
 
-    public Mesh() {
-        verticeList = new ArrayList<Float>();
-        normalList = new ArrayList<Float>();
-        textureList = new ArrayList<Float>();
+    private float scale;
+    private Vector3f position;
+    private Vector3f rotation;
+
+    public Mesh(String objPath, String texturePath) {
+        this.objPath = objPath;
+        this.texturePath = texturePath;
+        scale = DEFAULT_SCALE;
+        position = new Vector3f();
+        rotation = new Vector3f();
     }
 
-    public void render() {
-        GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
-        GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
-        GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+    public void draw() {
+        enableRenderingOptions();
+        bindTexture();
+        drawMesh();
+    }
 
-        Color.white.bind(); //GL11.glColor4f(1f, 1f, 1f, 1f);
-        texture.bind();
-
+    private void drawMesh() {
+        GL11.glPushMatrix();
+        GL11.glScalef(scale, scale, scale);
+        GL11.glTranslatef(position.getX(), position.getY(), position.getZ());
+        GL11.glRotatef(rotation.getX(), 1.0f, 0.0f, 0.0f);
+        GL11.glRotatef(rotation.getY(), 0.0f, 1.0f, 0.0f);
+        GL11.glRotatef(rotation.getZ(), 0.0f, 0.0f, 1.0f);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, verticesID);
         GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, normalsID);
         GL11.glNormalPointer(GL11.GL_FLOAT, 0, 0L);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, textureID);
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, verticeList.size());
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, objFileParser.getVertexBuffer().limit());
+        GL11.glPopMatrix();
+    }
+
+    private void bindTexture() {
+        Color.white.bind(); //GL11.glColor4f(1f, 1f, 1f, 1f);
+        texture.bind();
+    }
+
+    private void enableRenderingOptions() {
+        GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+        GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
+        GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
     }
 
     public void load() {
-        OBJModel model = readObj();
-
-        texture = de.krien.games.madness.view.voxel.util.texture.Texture.load("res/untitled.png");
-
-        clearData();
-        convertData(model);
-
-        FloatBuffer vertices = BufferUtils.createFloatBuffer(verticeList.size());
-        FloatBuffer normals = BufferUtils.createFloatBuffer(normalList.size());
-        FloatBuffer textures = BufferUtils.createFloatBuffer(textureList.size());
-
-        convertBuffers(vertices, normals, textures);
+        ObjFileParser objFileParser = loadMesh();
         generateBufferIDs();
-        bindDataToBuffers(vertices, normals, textures);
+        loadTexture();
+        bindDataToBuffers(
+                objFileParser.getVertexBuffer(),
+                objFileParser.getNormalBuffer(),
+                objFileParser.getTextureBuffer()
+        );
+
+    }
+
+    private ObjFileParser loadMesh() {
+        objFileParser = new ObjFileParser();
+        try {
+            objFileParser.readObj(objPath);
+        } catch (Exception e) {
+            System.out.println("Could not read .obj-File: ");
+            e.printStackTrace();
+        }
+        return objFileParser;
+    }
+
+    private void generateBufferIDs() {
+        verticesID = GL15.glGenBuffers();
+        normalsID = GL15.glGenBuffers();
+        textureID = GL15.glGenBuffers();
+    }
+
+    private void loadTexture() {
+        texture = de.krien.games.madness.view.voxel.util.texture.Texture.load(texturePath);
     }
 
     private void bindDataToBuffers(FloatBuffer vertices, FloatBuffer normals, FloatBuffer textures) {
@@ -78,66 +114,15 @@ public class Mesh {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
-    private void generateBufferIDs() {
-        verticesID = GL15.glGenBuffers();
-        normalsID = GL15.glGenBuffers();
-        textureID = GL15.glGenBuffers();
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 
-    private void convertBuffers(FloatBuffer vertices, FloatBuffer normals, FloatBuffer textures) {
-        for(Float f : verticeList) {
-            vertices.put(f);
-        }
-        vertices.flip();
-
-        for(Float f : normalList) {
-            normals.put(f);
-        }
-        normals.flip();
-
-        for(Float f : textureList) {
-            textures.put(f);
-        }
-        textures.flip();
+    public void setPosition(Vector3f position) {
+        this.position = position;
     }
 
-    private void convertData(OBJModel model) {
-        for (OBJObject object : model.getObjects()) {
-            for (OBJMesh mesh : object.getMeshes()) {
-                for (OBJFace face : mesh.getFaces()) {
-                    for (OBJDataReference reference : face.getReferences()) {
-                        OBJVertex vertex = model.getVertex(reference);
-                        verticeList.add(vertex.x);
-                        verticeList.add(vertex.y);
-                        verticeList.add(vertex.z);
-                        OBJNormal normal = model.getNormal(reference);
-                        normalList.add(normal.x);
-                        normalList.add(normal.y);
-                        normalList.add(normal.z);
-                        OBJTexCoord texture = model.getTexCoord(reference);
-                        textureList.add(texture.u);
-                        textureList.add(texture.v);
-                    }
-                }
-            }
-        }
-    }
-
-    private void clearData() {
-        verticeList.clear();
-        normalList.clear();
-        textureList.clear();
-    }
-
-    private OBJModel readObj() {
-        OBJModel model = null;
-        try {
-            InputStream in = new FileInputStream("res/untitled.obj");
-            IOBJParser parser = new OBJParser();
-            model = parser.parse(in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return model;
+    public void setRotation(Vector3f rotation) {
+        this.rotation = rotation;
     }
 }
