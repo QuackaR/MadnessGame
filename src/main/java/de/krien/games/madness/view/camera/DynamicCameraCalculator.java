@@ -1,10 +1,10 @@
 package de.krien.games.madness.view.camera;
 
-public class DynamicCameraUtil {
+public class DynamicCameraCalculator {
 
     private Camera camera;
 
-    public DynamicCameraUtil(Camera camera) {
+    public DynamicCameraCalculator(Camera camera) {
         this.camera = camera;
     }
 

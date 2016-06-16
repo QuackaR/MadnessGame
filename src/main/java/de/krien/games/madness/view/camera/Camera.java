@@ -2,12 +2,14 @@ package de.krien.games.madness.view.camera;
 
 import org.lwjgl.util.vector.Vector3f;
 
-public class Camera {
+public enum Camera {
+
+    INSTANCE;
 
     private Vector3f position;
     private Vector3f rotation;
 
-    public Camera() {
+    private Camera() {
         position = new Vector3f();
         rotation = new Vector3f();
     }

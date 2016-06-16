@@ -1,5 +1,11 @@
 package de.krien.games.madness.view.render;
 
+import de.krien.games.madness.view.camera.Camera;
+import de.krien.games.madness.view.hud.GameObject2D;
+import de.krien.games.madness.view.hud.crosshair.Crosshair;
+import de.krien.games.madness.view.hud.stats.Stats;
+import de.krien.games.madness.view.mesh.GameObject3D;
+import de.krien.games.madness.view.mesh.Mesh;
 import de.krien.games.madness.view.voxel.World;
 import de.krien.games.madness.view.voxel.util.texture.Texture;
 import de.krien.games.madness.view.voxel.util.texture.TextureManager;
@@ -7,18 +13,41 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector3f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Renderer {
 
+    private List<GameObject2D> gameobjectList2D;
+    private List<GameObject3D> gameobjectList3D;
+
     private Renderer2D renderer2D;
     private Renderer3D renderer3D;
+    private CameraRenderer cameraRenderer;
 
     public Renderer() {
         createWindow();
         initGL();
 
-        renderer2D = new Renderer2D();
-        renderer3D = new Renderer3D();
+        gameobjectList2D = new ArrayList<>();
+        gameobjectList3D = new ArrayList<>();
+
+        renderer2D = new Renderer2D(gameobjectList2D);
+        renderer3D = new Renderer3D(gameobjectList3D);
+        cameraRenderer = new CameraRenderer(Camera.INSTANCE);
+
+        initComponents();
+    }
+
+    private void initComponents() {
+        Crosshair crosshair = new Crosshair(20, 5);
+        Stats stats = new Stats();
+
+        gameobjectList2D.add(crosshair);
+        gameobjectList2D.add(stats);
+        gameobjectList3D.add(World.getInstance());
     }
 
     private void createWindow() {
@@ -61,10 +90,11 @@ public class Renderer {
         TextureManager.INSTANCE.setActiveTexture(Texture.BORDERLESS);
     }
 
-    public void draw(World world) {
+    public void draw() {
         clearDisplay();
-        renderer3D.draw(world);
-        renderer2D.draw(world);
+        renderer3D.draw();
+        cameraRenderer.update();
+        renderer2D.draw();
         updateDisplay();
     }
 
@@ -79,5 +109,13 @@ public class Renderer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<GameObject2D> getGameobjectList2D() {
+        return gameobjectList2D;
+    }
+
+    public List<GameObject3D> getGameobjectList3D() {
+        return gameobjectList3D;
     }
 }

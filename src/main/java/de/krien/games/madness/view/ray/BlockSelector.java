@@ -1,6 +1,7 @@
 package de.krien.games.madness.view.ray;
 
 import de.krien.games.madness.util.Vector3i;
+import de.krien.games.madness.view.camera.Camera;
 import de.krien.games.madness.view.voxel.Block;
 import de.krien.games.madness.view.voxel.Chunk;
 import de.krien.games.madness.view.voxel.World;
@@ -16,8 +17,8 @@ public class BlockSelector {
     private Vector3f rotation;
 
     public BlockSelector() {
-        position = World.getInstance().getCamera().getPosition();
-        rotation = World.getInstance().getCamera().getRotation();
+        position = Camera.INSTANCE.getPosition();
+        rotation = Camera.INSTANCE.getRotation();
         rayPick = new RayPick();
     }
 

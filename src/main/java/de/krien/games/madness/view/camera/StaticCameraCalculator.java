@@ -3,7 +3,7 @@ package de.krien.games.madness.view.camera;
 /**
  * Created by akrien on 08.06.2016.
  */
-public class StaticCameraUtil {
+public class StaticCameraCalculator {
 
     //MOVEMENT UP:              world.getCamera().decreasePositionZ(MOVEMENT_SENSITY);
     //DOWN:                     world.getCamera().increasePositionZ(MOVEMENT_SENSITY);
@@ -21,7 +21,7 @@ public class StaticCameraUtil {
 
     private Camera camera;
 
-    public StaticCameraUtil(Camera camera) {
+    public StaticCameraCalculator(Camera camera) {
         this.camera = camera;
     }
 

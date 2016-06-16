@@ -1,5 +1,6 @@
 package de.krien.games.madness.view.render;
 
+import de.krien.games.madness.view.hud.GameObject2D;
 import de.krien.games.madness.view.hud.crosshair.Crosshair;
 import de.krien.games.madness.view.hud.stats.Stats;
 import de.krien.games.madness.view.voxel.World;
@@ -7,21 +8,21 @@ import de.krien.games.madness.view.voxel.util.texture.TextureManager;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
+
 public class Renderer2D {
 
-    private Stats stats;
+    private List<GameObject2D> gameobjectList;
 
-    private Crosshair crosshair;
-
-    public Renderer2D() {
-        stats = new Stats();
-        crosshair = new Crosshair(20, 5);
+    public Renderer2D(List<GameObject2D> gameobjectList) {
+        this.gameobjectList = gameobjectList;
     }
 
-    public void draw(World world) {
+    public void draw() {
         begin2d();
-        crosshair.draw();
-        stats.draw();
+        for(GameObject2D gameObject : gameobjectList) {
+            gameObject.draw();
+        }
         end2d();
     }
 

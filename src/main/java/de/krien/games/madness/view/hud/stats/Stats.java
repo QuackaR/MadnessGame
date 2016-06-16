@@ -1,11 +1,12 @@
 package de.krien.games.madness.view.hud.stats;
 
+import de.krien.games.madness.view.hud.GameObject2D;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 import java.awt.*;
 
-public class Stats {
+public class Stats implements GameObject2D {
 
     private Font font;
     private TrueTypeFont typeFont;

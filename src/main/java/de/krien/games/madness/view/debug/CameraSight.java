@@ -1,5 +1,6 @@
 package de.krien.games.madness.view.debug;
 
+import de.krien.games.madness.view.camera.Camera;
 import de.krien.games.madness.view.ray.Ray;
 import de.krien.games.madness.view.voxel.World;
 import org.lwjgl.util.vector.Vector3f;
@@ -29,13 +30,13 @@ public enum CameraSight {
 
     private void updateCameraSightPoint() {
         cameraPositionAtToggleTime = new Vector3f(
-                -1 * World.getInstance().getCamera().getPositionX(),
-                -1 * World.getInstance().getCamera().getPositionY(),
-                -1 * World.getInstance().getCamera().getPositionZ());
+                -1 * Camera.INSTANCE.getPositionX(),
+                -1 * Camera.INSTANCE.getPositionY(),
+                -1 * Camera.INSTANCE.getPositionZ());
         cameraRotationAtToggleTime = new Vector3f(
-                World.getInstance().getCamera().getRotationX(),
-                World.getInstance().getCamera().getRotationY(),
-                World.getInstance().getCamera().getRotationZ());
+                Camera.INSTANCE.getRotationX(),
+                Camera.INSTANCE.getRotationY(),
+                Camera.INSTANCE.getRotationZ());
 
         Ray ray = new Ray(cameraPositionAtToggleTime, cameraRotationAtToggleTime);
         cameraSightPoint = ray.getPoint(CAMERA_SIGHT_DISTANCE);

@@ -9,7 +9,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import java.nio.FloatBuffer;
 
-public class Mesh {
+public class Mesh implements GameObject3D {
 
     private final float DEFAULT_SCALE = 1;
 
@@ -43,18 +43,22 @@ public class Mesh {
 
     private void drawMesh() {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        GL11.glTranslatef(position.getX(), position.getY(), position.getZ());
-        GL11.glRotatef(rotation.getX(), 1.0f, 0.0f, 0.0f);
-        GL11.glRotatef(rotation.getY(), 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(rotation.getZ(), 0.0f, 0.0f, 1.0f);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, verticesID);
-        GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, normalsID);
-        GL11.glNormalPointer(GL11.GL_FLOAT, 0, 0L);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, textureID);
-        GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, objFileParser.getVertexBuffer().limit());
+        {
+            GL11.glScalef(scale, scale, scale);
+            GL11.glTranslatef(position.getX(), position.getY(), position.getZ());
+            GL11.glRotatef(rotation.getX(), 1.0f, 0.0f, 0.0f);
+            GL11.glRotatef(rotation.getY(), 0.0f, 1.0f, 0.0f);
+            GL11.glRotatef(rotation.getZ(), 0.0f, 0.0f, 1.0f);
+
+            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, verticesID);
+            GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0L);
+            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, normalsID);
+            GL11.glNormalPointer(GL11.GL_FLOAT, 0, 0L);
+            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, textureID);
+            GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0L);
+
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, objFileParser.getVertexBuffer().limit());
+        }
         GL11.glPopMatrix();
     }
 
@@ -116,6 +120,18 @@ public class Mesh {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public Vector3f getPosition() {
+        return position;
+    }
+
+    public Vector3f getRotation() {
+        return rotation;
     }
 
     public void setPosition(Vector3f position) {

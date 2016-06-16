@@ -1,5 +1,6 @@
 package de.krien.games.madness.view.hud.crosshair;
 
+import de.krien.games.madness.view.hud.GameObject2D;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -8,7 +9,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import java.nio.FloatBuffer;
 
-public class Crosshair {
+public class Crosshair implements GameObject2D {
 
     private int crosshairId;
 
